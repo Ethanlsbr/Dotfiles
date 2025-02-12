@@ -1,0 +1,74 @@
+* {
+    font-family: JetBrainsMono Nerd Font;
+    font-size: 14px;
+    color: rgba(245, 245, 245, 1);
+    border-radius: 15px;
+}
+
+window#waybar {
+    background: rgba(0, 0, 0, 0);
+}
+/*-----module groups----*/
+
+.modules-right {
+    margin: 2px 8px 0 0;
+}
+.modules-center {
+    margin: 2px 0 0 0;
+}
+.modules-left {
+    margin: 2px 0 0 8px;
+}
+
+.modules-right > div#taskbar {
+    background-color: transparent;
+    margin: 0;
+}
+/*-----modules indv----*/
+#workspaces button {
+    padding: 0px 4px;
+    margin: 0 2px;
+    background-color: transparent;
+}
+#workspaces button:hover {
+    box-shadow: inherit;
+    background-color: rgba(40, 40, 45, 0.85)
+}
+/* #workspaces button.active {
+	background-color: rgba(17, 17, 27, 1);
+    box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.2)
+} */
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#network,
+#pulseaudio,
+#custom-media,
+#tray,
+#mode,
+#custom-power,
+#custom-menu,
+#custom-spotify
+#idle_inhibitor {
+    padding: 0 10px;
+}
+#mode {
+    color: #cc3436;
+    font-weight: bold;
+}
+
+#taskbar button {
+    margin: 0 2px;
+    box-shadow: none;
+	text-shadow: none;
+    padding: 0px;
+    border-radius: 9px;
+    margin-left: 0px;
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-right: 0px;
+    animation: tb_normal 20s ease-in-out 1;
+}
