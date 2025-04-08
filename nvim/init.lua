@@ -37,33 +37,6 @@ end
 
 -----------------------------THEME---------------------------
 
------ONE DARK PRO-----
---
--- require("onedarkpro").setup({
---   options = {
---     transparency = true
---   },
---   styles = {
---     types = "NONE",
---     methods = "NONE",
---     numbers = "NONE",
---     strings = "NONE",
---     comments = "italic",
---     keywords = "bold,italic",
---     constants = "NONE",
---     functions = "italic",
---     operators = "NONE",
---     variables = "NONE",
---     parameters = "NONE",
---     conditionals = "italic",
---     virtual_text = "NONE",
---   }
--- })
---
--- vim.cmd("colorscheme onedark")
-
-
-
 -----CATPPUCCIN-----
 
 require("catppuccin").setup {
@@ -75,6 +48,8 @@ require("catppuccin").setup {
 }
 
 vim.cmd.colorscheme "catppuccin"
+
+--------------------
 
 -------------------------------------------------------------
 
@@ -107,8 +82,6 @@ vim.api.nvim_create_user_command(
   end,
   {}
 )
-
-
 
 return {
     opts = {
