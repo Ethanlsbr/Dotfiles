@@ -5,7 +5,6 @@ clear && fastfetch
 ZSH_THEME="robbyrussell"
 
 # PLUGIN
-
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-completions/zsh-completions.plugin.zsh
@@ -18,7 +17,6 @@ source $ZSH/oh-my-zsh.sh
 bindkey '^H' backward-kill-word
 
 # ALIAS
-
 alias c="clear"
 alias n="nvim"
 alias dot="code ~/.config/"
