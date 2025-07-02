@@ -2,11 +2,11 @@
     font-family: JetBrainsMono Nerd Font;
     font-size: 14px;
     color: rgba(245, 245, 245, 1);
-    border-radius: 15px;
+    /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); */
 }
 
 window#waybar {
-    background: rgba(0, 0, 0, 0);
+    background: rgba(30, 30, 46, 0.4);
 }
 /*-----module groups----*/
 
@@ -31,13 +31,15 @@ window#waybar {
     background-color: transparent;
 }
 #workspaces button:hover {
-    box-shadow: inherit;
-    background-color: rgba(40, 40, 45, 0.85)
+	background-color: rgba(17, 17, 27, 0.4);
 }
-/* #workspaces button.active {
-	background-color: rgba(17, 17, 27, 1);
-    box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.2)
-} */
+
+#workspaces button.active {
+    background-color: rgba(17, 17, 27, 0);
+    border-radius: 0 0 0 0;
+    border-bottom: 3px solid #2E2E2E;
+}
+
 
 #clock,
 #battery,

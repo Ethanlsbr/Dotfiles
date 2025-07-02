@@ -21,19 +21,19 @@ function send_notification {
   bar=$(seq -s "─" 0 $(((brightness - 1) / 4)) | sed 's/[0-9]//g')
   space=$(seq --separator=" " 0 "$(((100 - brightness) / 4))" | sed 's/[0-9]//g')
   # Send the notification
-  dunstify -i "$icon" -r 5555 -u normal "|$bar$space| $brightness%"
+  notify-send -i $icon -r 5555 -u normal "|$bar$space| $brightness%"
 }
 
 
 case $1 in
   up)
-    # increase the backlight by 5%
-    brightnessctl set 5%+
+    # increase the backlight by 10%
+    brightnessctl set 10%+
     send_notification
     ;;
   down)
-    # decrease the backlight by 5%
-    brightnessctl set 5%-
+    # decrease the backlight by 10%
+    brightnessctl set 10%-
     send_notification
     ;;
   max)

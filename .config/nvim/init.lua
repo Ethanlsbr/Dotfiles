@@ -10,6 +10,14 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 
+local map = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+
+map('n', '<Up>', '<Nop>', opts)
+map('n', '<Down>', '<Nop>', opts)
+map('n', '<Left>', '<Nop>', opts)
+map('n', '<Right>', '<Nop>', opts)
+
 vim.opt.rtp:prepend(lazypath)
 
 vim.api.nvim_set_keymap('i', '<C-BS>', '<C-W>', { noremap = true, silent = true })
@@ -19,9 +27,8 @@ vim.keymap.set({"n", "v"}, "<C-:>", ":CommentToggle<CR>")
 require("vim-options")
 require("lazy").setup("plugins")
 
-vim.diagnostic.disable()
 
---vim.opt.termguicolors = true
+vim.opt.termguicolors = true
 --require("bufferline").setup{}
 
 require('nvim_comment').setup{}
@@ -36,20 +43,17 @@ end
 
 
 -----------------------------THEME---------------------------
-
 -----CATPPUCCIN-----
 
 require("catppuccin").setup {
-  transparent_background = true,
-  term_colors = true,
-  dim_inactive = {
-      percentage = 0.15,
-  }
+ transparent_background = true,
+ term_colors = true,
+ dim_inactive = {
+     percentage = 0.15,
+ }
 }
 
 vim.cmd.colorscheme "catppuccin"
-
---------------------
 
 -------------------------------------------------------------
 
@@ -83,6 +87,8 @@ vim.api.nvim_create_user_command(
   {}
 )
 
+vim.api.nvim_set_hl(0, "LineNr", { fg = "#808080" })
+
 return {
     opts = {
        --transparent_backkground = true,
@@ -93,4 +99,3 @@ return {
         }, opts))
     end
 }
-

@@ -1,27 +1,26 @@
 {
-  "layer": "top",
-  "height": 30,
-  "spacing": 0,
+"layer": "top",
+"height": 30,
+"spacing": 0,
 
-  "modules-left": [
-      "power-profiles-daemon",
-      "hyprland/workspaces",
-      "custom/cava"
-    ],
-  "modules-center": [
-      "custom/spotify"
-   ],
-  "modules-right": [
-      "pulseaudio",
-      "bluetooth",
-      "battery",
-      "network",
-      "clock"
-      ],
+"modules-left": [
+    "power-profiles-daemon",
+    "hyprland/workspaces"
+],
+"modules-center": [
+    "custom/spotify"
+],
+"modules-right": [
+    "pulseaudio",
+    "bluetooth",
+    "battery",
+    "network",
+    "clock"
+],
 
 "custom/spotify": {
     "exec": "/usr/bin/python3 /home/ethan/.config/waybar/mediaplayer.py --player spotify",
-    "format": "{}   ",
+    "format": " {}",
     "return-type": "json",
     "on-click": "playerctl play-pause",
     "on-scroll-up": "playerctl next",
@@ -65,10 +64,10 @@
   },
 
   "battery": {
-    "format": " {capacity}% <span font='Font Awesome 5 Free 11'>{icon}</span> ",
+    "format": " {capacity}% {icon}",
     "format-icons": ["", "", "", "", ""],
-    "format-charging": " {capacity}% <span font='Font Awesome 5 Free'></span> <span font='Font Awesome 5 Free 11'>{icon}</span> ",
-    "format-full": "<span font='Font Awesome 5 Free'></span> <span font='Font Awesome 5 Free 11'>{icon}</span>  Charged",
+    "format-charging": " {capacity}% ",
+    "format-full": " {capacity}% {icon}",
     "interval": 30,
     "states": {
         "warning": 30,
@@ -82,7 +81,7 @@
   },
 
   "network": {
-      "format-wifi": " ",
+      "format-wifi": "  ",
       "on-click": "kitty nmtui",
       "format-ethernet": "wired",
       "tooltip-format": "{essid} {signalStrength}%",
