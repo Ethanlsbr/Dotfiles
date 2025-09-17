@@ -22,3 +22,20 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/
 git clone https://github.com/zsh-users/zsh-completions ~/.zsh/
 git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/
 ```
+
+# What i use
+**Operating System** - [EndeavourOS](https://endeavouros.com/)
+
+**Window Manager** - [Hyprland](https://hypr.land/)
+
+**App Launcher** - [Rofi](https://github.com/davatorium/rofi)
+
+**Text Editor** - [Neovim](https://neovim.io/) / [Vscode](https://code.visualstudio.com/)
+
+**Status Bar** - [Waybar](https://github.com/Alexays/Waybar)
+
+**Terminal** - [Kitty](https://sw.kovidgoyal.net/kitty/)
+
+**Notifications Panel** - [Swaync](https://github.com/ErikReider/SwayNotificationCenter)
+
+**Wallpaper** - [Waypaper](https://github.com/anufrievroman/waypaper)
