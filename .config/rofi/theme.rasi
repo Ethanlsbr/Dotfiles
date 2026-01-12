@@ -1,12 +1,12 @@
 /* Define color variables */
 * {
-    bg:           #00000000;
-    fg:           #ffffff;
-    selbg:        #ffffff20;
-    selfg:        #ffffff;
-    lightbg:      #11111111;
-    dark1:        #00000033;
+    bg:           #1E1D2FFF;
+    bgalt:        #282839FF;
+    fg:           #D9E0EEFF;
+    selbg:        #7AA2F7FF;
+    dark1:        #161328;
     dark2:        #00000040;
+    transparent:  #00000000;
     font:           "Firacode Nerd Font regular 12";
 }
 
@@ -28,7 +28,7 @@ window {
 
 /* Input Bar */
 inputbar {
-    background-color:    @dark2;
+    background-color:    @bgalt;
     text-color:          @fg;
     padding:             0.8em 0.3em;
     margin:              0.8em;
@@ -41,14 +41,14 @@ inputbar {
 
 /* Prompt */
 prompt {
-    background-color:    @bg;
+    background-color:    @transparent;
     text-color:          @fg;
     padding:             0 0.5em 0 0;
 }
 
 /* Entry */
 entry {
-    background-color:    @bg;
+    background-color:    @transparent;
     text-color:          @fg;
     placeholder-color:   @fg;
     placeholder:         "Search...";
@@ -68,7 +68,7 @@ listview {
 
 /* Elements */
 element {
-    background-color:    @bg;
+    background-color:    @transparent;
     text-color:          @fg;
     border-radius:       0.3em;
     padding:             0.2em 0.3em;
@@ -78,40 +78,45 @@ element {
 }
 
 element normal.normal {
-    background-color:    @bg;
+    background-color:    @transparent;
     text-color:          @fg;
     border:              0px;
 }
 
 element selected.normal {
     background-color:    @selbg;
-    text-color:          @selfg;
+    text-color:          @fg;
     border:              0px;
 }
 
 /* Icons */
 element-icon {
-    background-color:    @bg;
-    text-color:          @selfg;
+    background-color:    @transparent;
+    text-color:          @fg;
     size:                34px;
 }
 
 /* Selected Element */
 element selected {
     background-color:    @bg;
-    text-color:          @selfg;
+    text-color:          @fg;
     border-color:        @dark1;
 }
 
 /* Text */
 element-text {
-    background-color:    @bg;
-    text-color:          @selfg;
+    background-color:    @transparent;
+    text-color:          @fg;
     expand:              true;
     horizontal-align:    0;
     vertical-align:      0.5;
     padding-left:        0em;
     padding: 0 10px;
+}
+
+/* Text color on selected element */
+element-text selected {
+    text-color:         @bg;
 }
 
 /* Main Box */

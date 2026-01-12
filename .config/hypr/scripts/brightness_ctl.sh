@@ -1,47 +1,53 @@
-#!/usr/bin/env bash
+#!/bin/bash
+# /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
+# Script for Monitor backlights (if supported) using brightnessctl
 
-# You can call this script like this:
-# $ ./brightnessControl.sh up
-# $ ./brightnessControl.sh down
+iDIR="$HOME/.config/swaync/icons"
+notification_timeout=1000
 
-# Script inspired by these wonderful people:
-# https://github.com/dastorm/volume-notification-dunst/blob/master/volume.sh
-# https://gist.github.com/sebastiencs/5d7227f388d93374cebdf72e783fbd6a
-
-function get_brightness {
-	brightnessctl -m | awk -F, '{print substr($4, 0, length($4)-1)}'
+# Get brightness
+get_backlight() {
+	echo $(brightnessctl -m | cut -d, -f4)
 }
 
-
-function send_notification {
-  icon="preferences-system-brightness-lock"
-  brightness=$(get_brightness)
-  # Make the bar with the special character ─ (it's not dash -)
-  # https://en.wikipedia.org/wiki/Box-drawing_character
-  bar=$(seq -s "─" 0 $(((brightness - 1) / 4)) | sed 's/[0-9]//g')
-  space=$(seq --separator=" " 0 "$(((100 - brightness) / 4))" | sed 's/[0-9]//g')
-  # Send the notification
-  notify-send -i $icon -r 5555 -u normal "|$bar$space| $brightness%"
+# Get icons
+get_icon() {
+	current=$(get_backlight | sed 's/%//')
+	if   [ "$current" -le "20" ]; then
+		icon="$iDIR/brightness-20.png"
+	elif [ "$current" -le "40" ]; then
+		icon="$iDIR/brightness-40.png"
+	elif [ "$current" -le "60" ]; then
+		icon="$iDIR/brightness-60.png"
+	elif [ "$current" -le "80" ]; then
+		icon="$iDIR/brightness-80.png"
+	else
+		icon="$iDIR/brightness-100.png"
+	fi
 }
 
+# Notify
+notify_user() {
+	notify-send -e -h string:x-canonical-private-synchronous:brightness_notif -h int:value:$current -u low -i "$icon" "Brightness : $current%"
+}
 
-case $1 in
-  up)
-    # increase the backlight by 10%
-    brightnessctl set 10%+
-    send_notification
-    ;;
-  down)
-    # decrease the backlight by 10%
-    brightnessctl set 10%-
-    send_notification
-    ;;
-  max)
-    brightnessctl set 100%
-    send_notification
-    ;;
-  blank)
-    brightnessctl set 0%
-    send_notification
-    ;;
+# Change brightness
+change_backlight() {
+	brightnessctl set "$1" && get_icon && notify_user
+}
+
+# Execute accordingly
+case "$1" in
+	"--get")
+		get_backlight
+		;;
+	"--inc")
+		change_backlight "+10%"
+		;;
+	"--dec")
+		change_backlight "10%-"
+		;;
+	*)
+		get_backlight
+		;;
 esac

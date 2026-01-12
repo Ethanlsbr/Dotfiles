@@ -13,15 +13,15 @@
   "timeout-critical": 0,
   "fit-to-screen": false,
   "control-center-width": 500,
-  "control-center-height": 900,
-  "notification-window-width": 500,
+  "control-center-height": 800,
+  "notification-window-width": 400,
   "keyboard-shortcuts": true,
   "image-visibility": "when-available",
   "transition-time": 200,
   "hide-on-clear": false,
   "hide-on-action": true,
   "script-fail-notify": true,
-  "widgets": ["title", "dnd", "volume", "backlight", "notifications", "mpris"],
+  "widgets": ["title", "dnd", "mpris", "volume", "backlight", "notifications"],
   "widget-config": {
     "title": {
       "text": "Notification Center",
@@ -36,8 +36,7 @@
       "text": "Notification Center"
     },
     "mpris": {
-      "image-size": 96,
-      "image-radius": 7
+      "image-size": 96
     },
     "volume": {
       "label": "󰕾"

@@ -1,12 +1,12 @@
 {
 "layer": "top",
 "position": "top",
-"height": 44,
+"height": 40,
 "spacing": 0,
 
 
 "modules-left": [
-    "power-profiles-daemon",
+    "custom/archicon",
     "hyprland/workspaces"
 ],
 
@@ -15,16 +15,61 @@
 ],
 
 "modules-right": [
-    "pulseaudio",
     "bluetooth",
+    "group/volume",
     "battery",
     "network",
     "clock"
 ],
 
 
-/*************************************************************************************************/
+"group/misc": {
+  "orientation": "inherit",
+  "drawer": {
+    "transition-duration": 500,
+    "children-class": "misc-modules",
+    "transition-top-to-bottom": false,
+    "transition-left-to-right": false
+  },
+  "modules": [
+    "custom/separator",
+    "bluetooth"
+  ]
+},
 
+"group/volume": {
+  "orientation": "inherit",
+  "drawer": {
+    "transition-duration": 500,
+    "transition-top-to-bottom": false,
+    "transition-left-to-right": false
+  },
+  "modules": [
+    "pulseaudio",
+    "pulseaudio/slider"
+  ]
+},
+
+
+ /*************************************************************************************************/
+
+
+"custom/archicon": {
+  "format": "   ",
+  "tooltip": false,
+  "on-click": "killall -9 rofi w|| rofi -show drun"
+},
+
+"custom/separator": {
+  "format": "|",
+  "tooltip": false
+},
+
+"pulseaudio/slider": {
+  "min": 0,
+  "max": 100,
+  "orientation": "horizontal"
+},
 
 "custom/spotify": {
     "exec": "/usr/bin/python3 /home/ethan/.config/waybar/mediaplayer.py --player spotify",
@@ -32,7 +77,8 @@
     "return-type": "json",
     "on-click": "playerctl play-pause",
     "on-scroll-up": "playerctl next",
-    "on-scroll-down": "playerctl previous"
+    "on-scroll-down": "playerctl previous",
+    "tooltip-format": "{}"
 },
 
 "custom/notification": {
@@ -76,8 +122,8 @@
 "battery": {
   "format": "{capacity}% {icon}",
   "format-icons": ["", "", "", "", ""],
-  "format-charging": " {capacity}% ",
-  "format-full": " {capacity}% {icon}",
+  "format-charging": "{capacity}% ",
+  "format-full": "{capacity}% {icon}",
   "interval": 30,
   "states": {
       "warning": 30,
@@ -100,11 +146,20 @@
 
 "pulseaudio": {
     "format": " {volume}% {icon} ",
-    "format-muted": "  ",
+    "format-muted": " <span size='15000'>󰝟</span> ",
     "format-icons": {
+        // "headphone": "",
+        // "hands-free": "",
+        // "headset": "",
+        // "phone": "",
+        // "phone-muted": "",
+        // "portable": "",
+        // "car": "",
         "default": ["", "", ""]
     },
-    "on-click": "pavucontrol"
+    "on-click": "pavucontrol",
+    "tooltip-format": "Volume: {volume}%",
+    "scroll-step": 1
 },
 
 "bluetooth": {
