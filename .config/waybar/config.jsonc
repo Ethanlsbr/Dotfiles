@@ -73,7 +73,7 @@
 
 "custom/spotify": {
     "exec": "/usr/bin/python3 /home/ethan/.config/waybar/mediaplayer.py --player spotify",
-    "format": " {}",
+    "format": "<span size='12500' color=\"#1ed760\"></span> {}",
     "return-type": "json",
     "on-click": "playerctl play-pause",
     "on-scroll-up": "playerctl next",
