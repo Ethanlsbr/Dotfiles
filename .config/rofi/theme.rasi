@@ -43,7 +43,7 @@ inputbar {
 prompt {
     background-color:    @transparent;
     text-color:          @fg;
-    padding:             0 0.5em 0 0;
+    padding:             0.1em 0.3em;
 }
 
 /* Entry */
@@ -52,7 +52,7 @@ entry {
     text-color:          @fg;
     placeholder-color:   @fg;
     placeholder:         "Search...";
-    padding:             0.1em 0.3em;
+    padding:             0.1em 0.7em;
     horizontal-align:    0;
 }
 

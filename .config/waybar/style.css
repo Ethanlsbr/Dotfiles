@@ -26,7 +26,7 @@ window#waybar {
 }
 
 #workspaces {
-    background: #161328;
+    background: #1E1E2E;
     margin: 5px 1px 0px 1px;
     padding: 0px 1px;
     border-radius: 15px;
@@ -102,7 +102,7 @@ window#waybar {
 }
 
 #clock {
-    background-color: #161328;
+    background-color: #1E1E2E;
     color: #f1dfda;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
@@ -111,7 +111,7 @@ window#waybar {
 }
 
 #power-profiles-daemon {
-    background-color: #161328;
+    background-color: #1E1E2E;
     color: #f1dfda;
     border-radius: 15px;
     padding: 1px 10px 0px 10px;
@@ -120,21 +120,21 @@ window#waybar {
 }
 
 #network {
-    background-color: #161328;
+    background-color: #1E1E2E;
     color: #f1dfda;
     padding: 1px 10px 0px 10px;
     margin: 5px 0px 0px 0px;
 }
 
 #battery {
-    background-color: #161328;
+    background-color: #1E1E2E;
     color: #f1dfda;
     padding: 1px 10px 0px 10px;
     margin: 5px 0px 0px 0px;
 }
 
 #bluetooth {
-    background-color: #161328;
+    background-color: #1E1E2E;
     color: #f1dfda;
     padding: 1px 10px 0px 15px;
     margin: 5px 0px 0px 0px;
@@ -143,14 +143,14 @@ window#waybar {
 }
 
 #pulseaudio {
-    background-color: #161328;
+    background-color: #1E1E2E;
     color: #f1dfda;
     padding: 1px 10px 0px 10px;
     margin: 5px 0px 0px 0px;
 }
 
 #custom-archicon {
-    background-color: #161328;
+    background-color: #1E1E2E;
     color: #f1dfda;
     border-radius: 15px;
     padding: 1px 8px 0px 10px;
@@ -159,7 +159,7 @@ window#waybar {
 }
 
 #custom-spotify {
-    background-color: #161328;
+    background-color: #1E1E2E;
     color: #f1dfda;
     border-radius: 15px;
     padding: 1px 10px 0px 10px;
@@ -168,7 +168,7 @@ window#waybar {
 }
 
 #custom-separator {
-    background-color: #161328;
+    background-color: #1E1E2E;
     color: #f1dfda;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
@@ -178,7 +178,7 @@ window#waybar {
 
 
 #pulseaudio-slider {
-    background-color: #161328;
+    background-color: #1E1E2E;
     padding: 1px 10px 0px 10px;
     margin: 5px 0px 0px 0px;
 }
@@ -200,4 +200,5 @@ window#waybar {
     min-width: 10px;
     border-radius: 5px;
     background-color: #38375B;
+    color: red;
 }

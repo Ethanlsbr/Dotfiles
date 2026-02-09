@@ -4,9 +4,8 @@
 "height": 40,
 "spacing": 0,
 
-
 "modules-left": [
-    "custom/archicon",
+    "power-profiles-daemon",
     "hyprland/workspaces"
 ],
 
@@ -53,6 +52,18 @@
 
  /*************************************************************************************************/
 
+
+"power-profiles-daemon": {
+  "format": "   ",
+  "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+  "tooltip": true,
+  "format-icons": {
+    "default": "  ",
+    "performance": "  ",
+    "balanced": "   ",
+    "power-saver":"   "
+  }
+},
 
 "custom/archicon": {
   "format": "   ",
@@ -121,7 +132,13 @@
 
 "battery": {
   "format": "{capacity}% {icon}",
-  "format-icons": ["", "", "", "", ""],
+  "format-icons": [
+    "<span color='#ff0000'></span>",
+    "",
+    "",
+    "",
+    ""
+  ],
   "format-charging": "{capacity}% ",
   "format-full": "{capacity}% {icon}",
   "interval": 30,
@@ -170,18 +187,6 @@
     "tooltip-format-connected-battery": "{device_alias} {device_battery_percentage}%",
     "on-click": "blueman-manager"
   },
-
-"power-profiles-daemon": {
-  "format": "{icon}",
-  "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-  "tooltip": true,
-  "format-icons": {
-    "default": "  ",
-    "performance": "  ",
-    "balanced": "   ",
-    "power-saver":"   "
-  }
-},
 
 "wlr/taskbar": {
   "format": "{icon}",
