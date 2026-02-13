@@ -57,11 +57,8 @@
   "format": "   ",
   "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
   "tooltip": true,
-  "format-icons": {
-    "default": "  ",
-    "performance": "  ",
-    "balanced": "   ",
-    "power-saver":"   "
+  "on-click": {
+    "exec": "/home/ethan/.config/waybar/script/powerManager.sh"
   }
 },
 
@@ -83,7 +80,7 @@
 },
 
 "custom/spotify": {
-    "exec": "/usr/bin/python3 /home/ethan/.config/waybar/mediaplayer.py --player spotify",
+    "exec": "/usr/bin/python3 /home/ethan/.config/waybar/script/mediaplayer.py --player spotify",
     "format": "<span size='12500' color=\"#1ed760\"></span> {}",
     "return-type": "json",
     "on-click": "playerctl play-pause",
