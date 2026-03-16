@@ -4,7 +4,7 @@
 
 # For arch and arch base distro
 ```
-yay -S hyprland hyprlang hyprshot hyprlock cava kitty swaylock-effects waybar rofi otf-font-awesome lsd wlogout zsh waypaper swww brightnessctl ttf-jetbrains-mono-nerd ttf-cascadia-code-nerd whitesur-gtk-theme xdg-desktop-portal-hyprland xdg-desktop-portal-gtk swaync nwg-look oh-my-posh btop blueman hypridle wl-cliphist wl-clip-persist --noconfirm --needed
+yay -S hyprland hyprlang hyprshot hyprlock cava kitty swaylock-effects waybar rofi rofi otf-font-awesome lsd wlogout bat fprintd zsh waypaper swww brightnessctl ttf-jetbrains-mono-nerd ttf-cascadia-code-nerd whitesur-gtk-theme docker xdg-desktop-portal-hyprland xdg-desktop-portal-gtk swaync nwg-look oh-my-posh tela-icon-theme btop blueman hypridle cliphist wl-clip-persist pamixer --noconfirm --needed
 ```
 
 # Clone this repo in your computer
