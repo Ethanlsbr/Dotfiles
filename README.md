@@ -8,6 +8,8 @@
 
 # Installation
 ```
+git clone https://github.com/Ethanlsbr/Dotfiles.git
+cd Dotfiles
 ./install.sh
 ```
 
