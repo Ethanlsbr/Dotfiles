@@ -2,25 +2,13 @@
 
 ![base-screenshot](./images/image.png)
 
-# For arch and arch base distro
-```
-yay -S hyprland hyprlang hyprshot hyprlock cava kitty swaylock-effects waybar rofi rofi otf-font-awesome lsd wlogout bat fprintd zsh waypaper swww brightnessctl ttf-jetbrains-mono-nerd ttf-cascadia-code-nerd whitesur-gtk-theme docker xdg-desktop-portal-hyprland xdg-desktop-portal-gtk swaync nwg-look oh-my-posh tela-icon-theme btop blueman hypridle cliphist wl-clip-persist pamixer --noconfirm --needed
-```
+# Disclaimer
 
-# Clone this repo in your computer
-```
-git clone https://github.com/Ethanlsbr/Dotfiles.git
-cd Dotfiles
-cp -r .config/. ~/.config/
-```
+**This Repository is only meant for user using arch or arch based Distro**
 
-# If you want the same shell prompt
+# Installation
 ```
-cp .zshrc ~/.
-cp oh-my-posh.toml ~/.config
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/
-git clone https://github.com/zsh-users/zsh-completions ~/.zsh/
-git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/
+./install.sh
 ```
 
 # What i use
