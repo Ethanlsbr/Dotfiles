@@ -54,7 +54,7 @@
 
 
 "power-profiles-daemon": {
-  "format": "   ",
+  "format": "  ",
   "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
   "tooltip": true,
   "on-click": {
@@ -63,7 +63,7 @@
 },
 
 "custom/archicon": {
-  "format": "   ",
+  "format": "  ",
   "tooltip": false,
   "on-click": "killall -9 rofi w|| rofi -show drun"
 },
@@ -128,16 +128,16 @@
 },
 
 "battery": {
-  "format": "{capacity}% {icon}",
+  "format": "{capacity}% <span size='13000' rise='-1000'>{icon}</span>",
   "format-icons": [
-    "<span color='#ff0000'></span>",
+    "",
     "",
     "",
     "",
     ""
   ],
   "format-charging": "{capacity}% ",
-  "format-full": "{capacity}% {icon}",
+  "format-full": "{capacity}% <span size='13000' rise='-1000'>{icon}</span>",
   "interval": 30,
   "states": {
       "warning": 30,
@@ -151,7 +151,7 @@
 },
 
 "network": {
-    "format-wifi": "  ",
+    "format-wifi": "",
     "on-click": "kitty nmtui",
     "format-ethernet": "wired",
     "tooltip-format": "{essid} {signalStrength}%",
