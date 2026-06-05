@@ -68,7 +68,7 @@ Item {
                         width:  parent.width * Math.max(0, Math.min(1, (UPower.displayDevice?.percentage ?? 0)))
                         color: {
                             const p = (UPower.displayDevice?.percentage ?? 0) * 100
-                            return p < 15 ? "#F38BA8" : p < 30 ? "#FAB387" : "#A6E3A1"
+                            return p < 15 ? pane.theme.error : p < 30 ? pane.theme.warn : pane.theme.tertiary
                         }
                     }
                 }
@@ -113,9 +113,9 @@ Item {
                 height: 70
                 radius: 12
                 color:  PowerProfiles.profile === prof
-                        ? Qt.lighter(pane.theme.active, 1.6)
-                        : (hov.hovered ? Qt.lighter(pane.theme.bg, 1.25) : Qt.darker(pane.theme.bg, 1.2))
-                border.color: PowerProfiles.profile === prof ? "#A6E3A1" : pane.theme.sep
+                        ? pane.theme.hi(1.6)
+                        : (hov.hovered ? pane.theme.surface : Qt.darker(pane.theme.bg, 1.2))
+                border.color: PowerProfiles.profile === prof ? pane.theme.tertiary : pane.theme.sep
                 border.width: PowerProfiles.profile === prof ? 2 : 1
 
                 HoverHandler { id: hov }
@@ -160,7 +160,7 @@ Item {
             height: 50
             radius: 10
             color: "#80F38BA8"
-            border.color: "#F38BA8"
+            border.color: pane.theme.error
             border.width: 1
 
             Text {

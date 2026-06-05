@@ -240,7 +240,7 @@ Item {
                             height: Math.max(20, pane.effH(model) * diagram.s)
                             radius: 6
                             color: model.disabled ? Qt.darker(pane.theme.bg, 1.5)
-                                  : (sel ? Qt.lighter(pane.theme.active, 1.5) : pane.theme.surface)
+                                  : (sel ? pane.theme.hi(1.5) : pane.theme.surface)
                             border.color: sel ? pane.theme.primary : pane.theme.sep
                             border.width: sel ? 2 : 1
                             z: sel ? 2 : 1
@@ -484,8 +484,8 @@ Item {
                                                 width: modesCol.width
                                                 height: 28; radius: 6
                                                 color: modelData === card.model.mode
-                                                       ? Qt.lighter(pane.theme.active, 1.3)
-                                                       : (mHover.hovered ? Qt.lighter(pane.theme.bg, 1.3) : "transparent")
+                                                       ? pane.theme.hi(1.3)
+                                                       : (mHover.hovered ? pane.theme.surface : "transparent")
                                                 HoverHandler { id: mHover }
                                                 Text {
                                                     anchors { left: parent.left; leftMargin: 10; verticalCenter: parent.verticalCenter }
@@ -576,8 +576,8 @@ Item {
                                             width: rotCol.width
                                             height: 28; radius: 6
                                             color: (parseInt(card.model.transform) || 0) === modelData.t
-                                                   ? Qt.lighter(pane.theme.active, 1.3)
-                                                   : (rHover.hovered ? Qt.lighter(pane.theme.bg, 1.3) : "transparent")
+                                                   ? pane.theme.hi(1.3)
+                                                   : (rHover.hovered ? pane.theme.surface : "transparent")
                                             HoverHandler { id: rHover }
                                             Text {
                                                 anchors { left: parent.left; leftMargin: 10; verticalCenter: parent.verticalCenter }
@@ -620,9 +620,9 @@ Item {
         signal clicked()
         width: lbl.implicitWidth + 26; height: 30
         radius: 8
-        color: selected ? Qt.lighter(pane.theme.active, 1.5)
-             : accent   ? (bHover.hovered ? Qt.lighter(pane.theme.active, 1.6) : Qt.lighter(pane.theme.active, 1.3))
-             :            (bHover.hovered ? Qt.lighter(pane.theme.bg, 1.3) : Qt.darker(pane.theme.bg, 1.2))
+        color: selected ? pane.theme.hi(1.5)
+             : accent   ? (bHover.hovered ? pane.theme.hi(1.6) : pane.theme.hi(1.3))
+             :            (bHover.hovered ? pane.theme.surface : Qt.darker(pane.theme.bg, 1.2))
         border.color: selected ? pane.theme.primary : pane.theme.sep
         border.width: selected ? 2 : 1
         HoverHandler { id: bHover }

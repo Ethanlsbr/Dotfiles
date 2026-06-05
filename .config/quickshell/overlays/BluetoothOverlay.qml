@@ -67,7 +67,7 @@ PanelWindow {
                 width: col.width
                 height: 32
                 radius: 8
-                color: Qt.lighter(overlay.theme.active, 1.3)
+                color: overlay.theme.hi(1.3)
 
                 Row {
                     anchors { fill: parent; leftMargin: 12; rightMargin: 12 }
@@ -87,7 +87,7 @@ PanelWindow {
                         width: 42; height: 22
                         radius: 11
                         color: Bluetooth.defaultAdapter?.enabled
-                               ? "#A6E3A1" : Qt.darker(overlay.theme.bg, 1.4)
+                               ? overlay.theme.tertiary : Qt.darker(overlay.theme.bg, 1.4)
 
                         Rectangle {
                             width: 16; height: 16; radius: 8
@@ -144,8 +144,8 @@ PanelWindow {
                     height: 30
                     radius: 7
                     color: rowHover.hovered
-                            ? Qt.lighter(overlay.theme.active, 1.2)
-                            : (modelData.connected ? Qt.lighter(overlay.theme.active, 1.4) : "transparent")
+                            ? overlay.theme.hi(1.2)
+                            : (modelData.connected ? overlay.theme.hi(1.4) : "transparent")
 
                     HoverHandler { id: rowHover }
 
@@ -193,8 +193,8 @@ PanelWindow {
                 height: 32
                 radius: 9
                 color: settingsBtnHover.hovered
-                        ? Qt.lighter(overlay.theme.active, 1.6)
-                        : Qt.lighter(overlay.theme.active, 1.3)
+                        ? overlay.theme.hi(1.6)
+                        : overlay.theme.hi(1.3)
 
                 HoverHandler { id: settingsBtnHover }
 

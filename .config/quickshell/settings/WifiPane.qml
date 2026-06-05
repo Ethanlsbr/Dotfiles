@@ -27,14 +27,14 @@ Item {
         height: 34
         radius: 8
         color: pane.theme.field
-        border.color: ti.activeFocus ? "#A6E3A1" : pane.theme.sep
+        border.color: ti.activeFocus ? pane.theme.tertiary : pane.theme.sep
         border.width: 1
         TextInput {
             id: ti
             anchors { fill: parent; leftMargin: 12; rightMargin: fb.secret ? 38 : 12 }
             verticalAlignment: TextInput.AlignVCenter
             color: pane.theme.fg
-            selectionColor: Qt.lighter(pane.theme.active, 1.4)
+            selectionColor: pane.theme.hi(1.4)
             font.family: pane.theme.ff
             font.pixelSize: pane.theme.fs
             echoMode: (fb.secret && !fb.revealed) ? TextInput.Password : TextInput.Normal
@@ -76,10 +76,10 @@ Item {
         width: segText.implicitWidth + 22
         height: 28
         radius: 7
-        color: selected ? Qt.lighter(pane.theme.active, 1.4)
-                        : (segHover.hovered ? Qt.lighter(pane.theme.bg, 1.3)
+        color: selected ? pane.theme.hi(1.4)
+                        : (segHover.hovered ? pane.theme.surface
                                             : Qt.darker(pane.theme.bg, 1.2))
-        border.color: selected ? "#A6E3A1" : pane.theme.sep
+        border.color: selected ? pane.theme.tertiary : pane.theme.sep
         border.width: 1
         HoverHandler { id: segHover }
         Text {
@@ -132,7 +132,7 @@ Item {
             height: pwCol.implicitHeight + 24
             radius: 12
             color: Qt.darker(pane.theme.bg, 1.15)
-            border.color: "#A6E3A1"
+            border.color: pane.theme.tertiary
             border.width: 1
 
             // Submit whichever credential form is active. No-ops while a connect
@@ -237,7 +237,7 @@ Item {
                 Text {
                     visible: pane.shellRoot.wifiPasswordError.length > 0
                     text: pane.shellRoot.wifiPasswordError
-                    color: "#F38BA8"
+                    color: pane.theme.error
                     width: pwCol.width
                     wrapMode: Text.WordWrap
                     font.family: pane.theme.ff
@@ -251,7 +251,7 @@ Item {
                     Rectangle {
                         width: 90; height: 30
                         radius: 7
-                        color: pwCancelHover.hovered ? Qt.lighter(pane.theme.bg, 1.3) : Qt.darker(pane.theme.bg, 1.2)
+                        color: pwCancelHover.hovered ? pane.theme.surface : Qt.darker(pane.theme.bg, 1.2)
                         border.color: pane.theme.sep
                         border.width: 1
                         HoverHandler { id: pwCancelHover }
@@ -279,7 +279,7 @@ Item {
                         radius: 7
                         color: !ready
                                ? Qt.darker(pane.theme.bg, 1.4)
-                               : (pwConnectHover.hovered ? Qt.lighter(pane.theme.active, 1.6) : Qt.lighter(pane.theme.active, 1.3))
+                               : (pwConnectHover.hovered ? pane.theme.hi(1.6) : pane.theme.hi(1.3))
                         opacity: ready ? 1 : 0.5
                         HoverHandler { id: pwConnectHover }
                         Text {
@@ -341,7 +341,7 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     width: 42; height: 22
                     radius: 11
-                    color: pane.shellRoot.wifiEnabled ? "#A6E3A1" : Qt.darker(pane.theme.bg, 1.4)
+                    color: pane.shellRoot.wifiEnabled ? pane.theme.tertiary : Qt.darker(pane.theme.bg, 1.4)
 
                     Rectangle {
                         width: 16; height: 16; radius: 8
@@ -394,8 +394,8 @@ Item {
                         // Out-of-range entries are dimmed.
                         opacity: modelData.available ? 1 : 0.45
                         color: savedRowHover.hovered
-                                ? Qt.lighter(pane.theme.active, 1.2)
-                                : (modelData.active ? Qt.lighter(pane.theme.active, 1.4) : "transparent")
+                                ? pane.theme.hi(1.2)
+                                : (modelData.active ? pane.theme.hi(1.4) : "transparent")
 
                         HoverHandler { id: savedRowHover }
 
@@ -406,7 +406,7 @@ Item {
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
                                 text: modelData.available ? pane.signalIcon(modelData.strength) : ""
-                                color: modelData.active ? "#A6E3A1" : pane.theme.fg
+                                color: modelData.active ? pane.theme.tertiary : pane.theme.fg
                                 font.family: pane.theme.ff
                                 font.pixelSize: pane.theme.fs + 1
                             }
@@ -442,7 +442,7 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 width: 70; height: 26
                                 radius: 7
-                                color: savedForgetHover.hovered ? "#F38BA8" : Qt.darker(pane.theme.bg, 1.2)
+                                color: savedForgetHover.hovered ? pane.theme.error : Qt.darker(pane.theme.bg, 1.2)
                                 border.color: pane.theme.sep
                                 border.width: 1
                                 HoverHandler { id: savedForgetHover }
@@ -467,8 +467,8 @@ Item {
                                 width: 90; height: 26
                                 radius: 7
                                 color: savedConnHover.hovered
-                                        ? Qt.lighter(pane.theme.active, 1.6)
-                                        : Qt.lighter(pane.theme.active, 1.3)
+                                        ? pane.theme.hi(1.6)
+                                        : pane.theme.hi(1.3)
                                 HoverHandler { id: savedConnHover }
                                 Text {
                                     anchors.centerIn: parent
@@ -513,7 +513,7 @@ Item {
                 width: 130; height: 28
                 radius: 8
                 color: nmtuiHover.hovered
-                       ? Qt.lighter(pane.theme.active, 1.4)
+                       ? pane.theme.hi(1.4)
                        : Qt.darker(pane.theme.bg, 1.2)
                 border.color: pane.theme.sep
                 border.width: 1
@@ -542,8 +542,8 @@ Item {
                 width: 130; height: 28
                 radius: 8
                 color: pane.shellRoot.wifiScanning
-                       ? Qt.lighter(pane.theme.active, 1.6)
-                       : (scanHover.hovered ? Qt.lighter(pane.theme.active, 1.4)
+                       ? pane.theme.hi(1.6)
+                       : (scanHover.hovered ? pane.theme.hi(1.4)
                                             : Qt.darker(pane.theme.bg, 1.2))
                 border.color: pane.theme.sep
                 border.width: 1
@@ -621,8 +621,8 @@ Item {
                         height: 38
                         radius: 8
                         color: rowHover.hovered
-                                ? Qt.lighter(pane.theme.active, 1.2)
-                                : (modelData.active ? Qt.lighter(pane.theme.active, 1.4) : "transparent")
+                                ? pane.theme.hi(1.2)
+                                : (modelData.active ? pane.theme.hi(1.4) : "transparent")
 
                         HoverHandler { id: rowHover }
 
@@ -633,7 +633,7 @@ Item {
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
                                 text: pane.signalIcon(modelData.strength)
-                                color: modelData.active ? "#A6E3A1" : pane.theme.fg
+                                color: modelData.active ? pane.theme.tertiary : pane.theme.fg
                                 font.family: pane.theme.ff
                                 font.pixelSize: pane.theme.fs + 1
                             }
@@ -681,7 +681,7 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 width: 70; height: 26
                                 radius: 7
-                                color: forgetBtnHover.hovered ? "#F38BA8" : Qt.darker(pane.theme.bg, 1.2)
+                                color: forgetBtnHover.hovered ? pane.theme.error : Qt.darker(pane.theme.bg, 1.2)
                                 border.color: pane.theme.sep
                                 border.width: 1
                                 HoverHandler { id: forgetBtnHover }
@@ -705,8 +705,8 @@ Item {
                                 width: 90; height: 26
                                 radius: 7
                                 color: connBtnHover.hovered
-                                        ? Qt.lighter(pane.theme.active, 1.6)
-                                        : Qt.lighter(pane.theme.active, 1.3)
+                                        ? pane.theme.hi(1.6)
+                                        : pane.theme.hi(1.3)
                                 HoverHandler { id: connBtnHover }
                                 Text {
                                     anchors.centerIn: parent

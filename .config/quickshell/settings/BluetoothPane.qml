@@ -78,7 +78,7 @@ Item {
                 width: 150; height: 28
                 radius: 8
                 color: bluemanHover.hovered
-                       ? Qt.lighter(pane.theme.active, 1.4)
+                       ? pane.theme.hi(1.4)
                        : Qt.darker(pane.theme.bg, 1.2)
                 border.color: pane.theme.sep
                 border.width: 1
@@ -119,7 +119,7 @@ Item {
                 width: 90; height: 28
                 radius: 8
                 color: (Bluetooth.defaultAdapter?.discovering ?? false)
-                       ? Qt.lighter(pane.theme.active, 1.6)
+                       ? pane.theme.hi(1.6)
                        : Qt.darker(pane.theme.bg, 1.2)
                 border.color: pane.theme.sep
                 border.width: 1
@@ -234,8 +234,8 @@ Item {
                     height: 38
                     radius: 8
                     color: rowHover.hovered
-                            ? Qt.lighter(pane.theme.active, 1.2)
-                            : (modelData.connected ? Qt.lighter(pane.theme.active, 1.4) : "transparent")
+                            ? pane.theme.hi(1.2)
+                            : (modelData.connected ? pane.theme.hi(1.4) : "transparent")
 
                     HoverHandler { id: rowHover }
 
@@ -288,8 +288,8 @@ Item {
                             width: 70; height: 26
                             radius: 7
                             color: connBtnHover.hovered
-                                    ? Qt.lighter(pane.theme.active, 1.6)
-                                    : Qt.lighter(pane.theme.active, 1.3)
+                                    ? pane.theme.hi(1.6)
+                                    : pane.theme.hi(1.3)
                             HoverHandler { id: connBtnHover }
                             Text {
                                 anchors.centerIn: parent
@@ -323,8 +323,8 @@ Item {
                             width: 80; height: 26
                             radius: 7
                             color: modelData.trusted
-                                    ? (trustBtnHover.hovered ? Qt.lighter(pane.theme.active, 1.6) : Qt.lighter(pane.theme.active, 1.3))
-                                    : (trustBtnHover.hovered ? Qt.lighter(pane.theme.bg, 1.3) : Qt.darker(pane.theme.bg, 1.2))
+                                    ? (trustBtnHover.hovered ? pane.theme.hi(1.6) : pane.theme.hi(1.3))
+                                    : (trustBtnHover.hovered ? pane.theme.surface : Qt.darker(pane.theme.bg, 1.2))
                             border.color: pane.theme.sep
                             border.width: modelData.trusted ? 0 : 1
                             HoverHandler { id: trustBtnHover }
@@ -347,7 +347,7 @@ Item {
                             visible: pane.isLinked(modelData)
                             width: 70; height: 26
                             radius: 7
-                            color: forgetBtnHover.hovered ? "#F38BA8" : Qt.darker(pane.theme.bg, 1.2)
+                            color: forgetBtnHover.hovered ? pane.theme.error : Qt.darker(pane.theme.bg, 1.2)
                             border.color: pane.theme.sep
                             border.width: 1
                             HoverHandler { id: forgetBtnHover }
@@ -396,7 +396,7 @@ Item {
             width: 42; height: 22
             radius: 11
             opacity: parent.enabled ? 1 : 0.5
-            color: parent.value ? "#A6E3A1" : Qt.darker(pane.theme.bg, 1.4)
+            color: parent.value ? pane.theme.tertiary : Qt.darker(pane.theme.bg, 1.4)
 
             Rectangle {
                 width: 16; height: 16; radius: 8

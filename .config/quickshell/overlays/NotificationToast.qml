@@ -54,7 +54,7 @@ PanelWindow {
                 implicitHeight: Math.max(58, textCol.implicitHeight + 20)
                 radius: 12
                 color: overlay.theme.bg
-                border.color: modelData.urgency === 2 ? "#F38BA8" : overlay.theme.sep
+                border.color: modelData.urgency === 2 ? overlay.theme.error : overlay.theme.sep
                 border.width: 1
 
                 // Slide-in from the right.
@@ -188,7 +188,7 @@ PanelWindow {
                     id: closeT
                     anchors { right: parent.right; top: parent.top; margins: 8 }
                     width: 20; height: 20; radius: 10
-                    color: closeHover.hovered ? "#F38BA8" : "transparent"
+                    color: closeHover.hovered ? overlay.theme.error : "transparent"
                     opacity: toastHover.hovered ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 120 } }
                     HoverHandler { id: closeHover }

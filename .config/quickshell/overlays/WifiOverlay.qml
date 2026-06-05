@@ -80,7 +80,7 @@ PanelWindow {
                 width: col.width
                 height: 32
                 radius: 8
-                color: Qt.lighter(overlay.theme.active, 1.3)
+                color: overlay.theme.hi(1.3)
 
                 Row {
                     anchors { fill: parent; leftMargin: 12; rightMargin: 8 }
@@ -98,7 +98,7 @@ PanelWindow {
                         id: rescanIcon
                         anchors.verticalCenter: parent.verticalCenter
                         width: 28; height: 22; radius: 6
-                        color: rescanHover.hovered ? Qt.lighter(overlay.theme.active, 1.6) : "transparent"
+                        color: rescanHover.hovered ? overlay.theme.hi(1.6) : "transparent"
                         opacity: overlay.shellRoot.wifiEnabled ? 1 : 0.4
 
                         HoverHandler { id: rescanHover }
@@ -137,7 +137,7 @@ PanelWindow {
                         anchors.verticalCenter: parent.verticalCenter
                         width: 42; height: 22
                         radius: 11
-                        color: overlay.shellRoot.wifiEnabled ? "#A6E3A1" : Qt.darker(overlay.theme.bg, 1.4)
+                        color: overlay.shellRoot.wifiEnabled ? overlay.theme.tertiary : Qt.darker(overlay.theme.bg, 1.4)
 
                         Rectangle {
                             width: 16; height: 16; radius: 8
@@ -175,8 +175,8 @@ PanelWindow {
                     height: 30
                     radius: 7
                     color: rowHover.hovered
-                            ? Qt.lighter(overlay.theme.active, 1.2)
-                            : (modelData.active ? Qt.lighter(overlay.theme.active, 1.4) : "transparent")
+                            ? overlay.theme.hi(1.2)
+                            : (modelData.active ? overlay.theme.hi(1.4) : "transparent")
 
                     HoverHandler { id: rowHover }
 
@@ -187,7 +187,7 @@ PanelWindow {
                         Text {
                             anchors.verticalCenter: parent.verticalCenter
                             text: overlay.signalIcon(modelData.strength)
-                            color: modelData.active ? "#A6E3A1" : overlay.theme.fg
+                            color: modelData.active ? overlay.theme.tertiary : overlay.theme.fg
                             font.family: overlay.theme.ff
                             font.pixelSize: overlay.theme.fs - 1
                         }
@@ -255,7 +255,7 @@ PanelWindow {
                         height: 30
                         radius: 7
                         color: overlay.theme.field
-                        border.color: pwInput.activeFocus ? "#A6E3A1" : overlay.theme.sep
+                        border.color: pwInput.activeFocus ? overlay.theme.tertiary : overlay.theme.sep
                         border.width: 1
 
                         TextInput {
@@ -263,7 +263,7 @@ PanelWindow {
                             anchors { fill: parent; leftMargin: 10; rightMargin: 34 }
                             verticalAlignment: TextInput.AlignVCenter
                             color: overlay.theme.fg
-                            selectionColor: Qt.lighter(overlay.theme.active, 1.4)
+                            selectionColor: overlay.theme.hi(1.4)
                             font.family: overlay.theme.ff
                             font.pixelSize: overlay.theme.fs - 1
                             echoMode: pwBox.revealed ? TextInput.Normal : TextInput.Password
@@ -315,7 +315,7 @@ PanelWindow {
                     Text {
                         visible: overlay.shellRoot.wifiPasswordError.length > 0
                         text: overlay.shellRoot.wifiPasswordError
-                        color: "#F38BA8"
+                        color: overlay.theme.error
                         font.family: overlay.theme.ff
                         font.pixelSize: overlay.theme.fs - 2
                     }
@@ -327,7 +327,7 @@ PanelWindow {
                         Rectangle {
                             width: 70; height: 26
                             radius: 7
-                            color: pwCancelHover.hovered ? Qt.lighter(overlay.theme.bg, 1.3) : Qt.darker(overlay.theme.bg, 1.2)
+                            color: pwCancelHover.hovered ? overlay.theme.surface : Qt.darker(overlay.theme.bg, 1.2)
                             border.color: overlay.theme.sep
                             border.width: 1
                             HoverHandler { id: pwCancelHover }
@@ -352,8 +352,8 @@ PanelWindow {
                             color: pwInput.text.length === 0
                                    ? Qt.darker(overlay.theme.bg, 1.4)
                                    : (pwConnectHover.hovered
-                                        ? Qt.lighter(overlay.theme.active, 1.6)
-                                        : Qt.lighter(overlay.theme.active, 1.3))
+                                        ? overlay.theme.hi(1.6)
+                                        : overlay.theme.hi(1.3))
                             opacity: pwInput.text.length === 0 ? 0.5 : 1
                             HoverHandler { id: pwConnectHover }
                             Text {
@@ -381,8 +381,8 @@ PanelWindow {
                 height: 32
                 radius: 9
                 color: settingsBtnHover.hovered
-                        ? Qt.lighter(overlay.theme.active, 1.6)
-                        : Qt.lighter(overlay.theme.active, 1.3)
+                        ? overlay.theme.hi(1.6)
+                        : overlay.theme.hi(1.3)
 
                 HoverHandler { id: settingsBtnHover }
 

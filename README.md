@@ -5,6 +5,7 @@
 # Disclaimer
 
 **This Repository is only meant for user using arch or arch based Distro**
+Dashboard panel inspired from [Caelestia](https://github.com/caelestia-dots/shell)
 
 # Installation
 ```
@@ -18,14 +19,8 @@ cd Dotfiles
 
 **Window Manager** - [Hyprland](https://hypr.land/)
 
-**App Launcher** - [Rofi](https://github.com/davatorium/rofi)
+**Shell** - [Quickshell](https://quickshell.org/)
 
 **Text Editor** - [Neovim](https://neovim.io/) / [Vscode](https://code.visualstudio.com/)
 
-**Status Bar** - [Waybar](https://github.com/Alexays/Waybar)
-
 **Terminal** - [Kitty](https://sw.kovidgoyal.net/kitty/)
-
-**Notifications Panel** - [Swaync](https://github.com/ErikReider/SwayNotificationCenter)
-
-**Wallpaper** - [Waypaper](https://github.com/anufrievroman/waypaper)

@@ -430,8 +430,8 @@ Item {
         implicitWidth:  big ? 50 : 40
         implicitHeight: big ? 50 : 40
         radius: width / 2
-        color: hover.hovered ? Qt.lighter(pane.theme.active, 1.5)
-                             : (big ? Qt.lighter(pane.theme.active, 1.2) : "transparent")
+        color: hover.hovered ? pane.theme.hi(1.5)
+                             : (big ? pane.theme.hi(1.2) : "transparent")
         opacity: enabled ? 1 : 0.4
         border.color: pane.theme.sep
         border.width: big ? 0 : 1

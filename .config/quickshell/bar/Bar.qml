@@ -71,7 +71,7 @@ PanelWindow {
                 height: bar.theme.ph; width:50
                 radius: bar.theme.pr
                 color: archHover.hovered
-                       ? Qt.lighter(bar.theme.active, 1.3)
+                       ? bar.theme.hi(1.3)
                        : bar.theme.bg
                 Text {
                     anchors.centerIn: parent
@@ -223,7 +223,7 @@ PanelWindow {
                             : []
                         return (conn.length > 0 ? conn.length + " " : "") + ""
                     }
-                    color: Bluetooth.defaultAdapter?.enabled ? bar.theme.fg : "#6c7086"
+                    color: Bluetooth.defaultAdapter?.enabled ? bar.theme.fg : bar.theme.outline
                     font.family: bar.theme.ff; font.bold: true; font.pixelSize: bar.theme.fs
                     leftPadding: 15; rightPadding: 10
 
@@ -293,8 +293,8 @@ PanelWindow {
                         var dev = UPower.displayDevice
                         if (!dev?.isPresent) return bar.theme.fg
                         var pct = dev.percentage * 100
-                        return pct < 15 ? "#F38BA8"
-                             : pct < 30 ? "#FAB387"
+                        return pct < 15 ? bar.theme.error
+                             : pct < 30 ? bar.theme.warn
                              : bar.theme.fg
                     }
                     font.family: bar.theme.ff; font.bold: true; font.pixelSize: bar.theme.fs

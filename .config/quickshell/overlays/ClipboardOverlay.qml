@@ -223,7 +223,7 @@ PanelWindow {
                     color: index === overlay.selectedIndex
                            ? overlay.theme.active
                            : (rowHover.hovered
-                              ? Qt.lighter(overlay.theme.bg, 1.3)
+                              ? overlay.theme.surface
                               : "transparent")
 
                     HoverHandler {

@@ -183,7 +183,7 @@ PanelWindow {
                             radius: 12
                             color:   parent.modelData.isToday ? overlay.theme.primary
                                    : (cellHover.hovered && parent.modelData.current
-                                        ? Qt.lighter(overlay.theme.active, 1.4) : "transparent")
+                                        ? overlay.theme.hi(1.4) : "transparent")
                             HoverHandler { id: cellHover }
 
                             Text {
@@ -210,7 +210,7 @@ PanelWindow {
 
         width: 28; height: 28
         radius: 14
-        color: navHover.hovered ? Qt.lighter(overlay.theme.active, 1.4) : "transparent"
+        color: navHover.hovered ? overlay.theme.hi(1.4) : "transparent"
         HoverHandler { id: navHover }
 
         Text {

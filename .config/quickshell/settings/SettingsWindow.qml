@@ -65,7 +65,7 @@ FloatingWindow {
                         radius: 10
                         color: window.activePane === modelData.id
                                ? window.theme.active
-                               : (navHover.hovered ? Qt.lighter(window.theme.bg, 1.2) : "transparent")
+                               : (navHover.hovered ? window.theme.surface : "transparent")
 
                         HoverHandler { id: navHover }
 
@@ -125,7 +125,7 @@ FloatingWindow {
             anchors { right: parent.right; top: parent.top; margins: 14 }
             width: 30; height: 30
             radius: 15
-            color: closeHover.hovered ? "#F38BA8" : Qt.darker(window.theme.bg, 1.2)
+            color: closeHover.hovered ? window.theme.error : Qt.darker(window.theme.bg, 1.2)
             border.color: window.theme.sep
             border.width: 1
 

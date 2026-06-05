@@ -164,7 +164,7 @@ Item {
                         height: 26
                         width: srcRow.implicitWidth + 20
                         radius: 13
-                        color: sel ? Qt.lighter(pane.theme.active, 1.4) : Qt.darker(pane.theme.bg, 1.15)
+                        color: sel ? pane.theme.hi(1.4) : Qt.darker(pane.theme.bg, 1.15)
                         border.color: sel ? pane.theme.primary : pane.theme.sep
                         border.width: 1
 
@@ -319,8 +319,8 @@ Item {
         height: big ? 56 : 44
         radius: big ? 28 : 22
         color: hover.hovered
-                ? Qt.lighter(pane.theme.active, 1.5)
-                : (big ? Qt.lighter(pane.theme.active, 1.2) : "transparent")
+                ? pane.theme.hi(1.5)
+                : (big ? pane.theme.hi(1.2) : "transparent")
         opacity: enabled ? 1 : 0.4
         border.color: pane.theme.sep
         border.width: big ? 0 : 1

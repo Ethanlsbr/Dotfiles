@@ -1296,7 +1296,9 @@ ShellRoot {
             showOsd("media", 0, false, (body || s).replace(/\n+/g, "  —  ").trim())
         }
     }
-    Timer { id: osdHideTimer; interval: 1600; repeat: false; onTriggered: root.osdVisible = false }
+    // Battery OSDs linger longer (5 s) so a low-battery warning is readable;
+    // volume/brightness/media stay snappy at 1.6 s.
+    Timer { id: osdHideTimer; interval: root.osdKind === "battery" ? 5000 : 1600; repeat: false; onTriggered: root.osdVisible = false }
 
     // Hover-out hide (matches the other popups' 600 ms grace period).
     Timer {
@@ -1999,6 +2001,14 @@ ShellRoot {
         readonly property int    fs:        14
         readonly property int    ph:        30
         readonly property int    pr:        15
+
+        // Highlight tint derived from `active`, used for hover / selected /
+        // accent fills shell-wide. On the dark theme "more prominent" means
+        // lighter; on light, `active` is already pale so lightening trends to
+        // white (invisible) — there, darken by the same factor instead. Larger
+        // f ⇒ more prominent in both themes. Reads `light`/`active`, so bound
+        // call sites recolour live when the theme changes.
+        function hi(f) { return light ? Qt.darker(active, f) : Qt.lighter(active, f) }
     }
 
     Component.onCompleted: {

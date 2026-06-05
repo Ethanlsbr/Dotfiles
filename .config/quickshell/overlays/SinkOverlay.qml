@@ -69,7 +69,7 @@ PanelWindow {
                     width: col.width
                     height: 28
                     radius: 7
-                    color: modelData.active ? Qt.lighter(overlay.theme.active, 1.4) : "transparent"
+                    color: modelData.active ? overlay.theme.hi(1.4) : "transparent"
 
                     Text {
                         anchors {
@@ -136,7 +136,7 @@ PanelWindow {
                         radius: parent.radius
                         width: parent.width * Math.max(0, Math.min(1,
                                 (overlay.shellRoot.volPct < 0 ? 0 : overlay.shellRoot.volPct) / 100))
-                        color: overlay.shellRoot.volMuted ? "#6c7086" : "#A6E3A1"
+                        color: overlay.shellRoot.volMuted ? overlay.theme.outline : overlay.theme.tertiary
                     }
 
                     // Draggable handle dot at the fill edge.
@@ -144,7 +144,7 @@ PanelWindow {
                         width: 14; height: 14; radius: 7
                         anchors.verticalCenter: parent.verticalCenter
                         x: Math.max(0, Math.min(parent.width - width, volFill.width - width / 2))
-                        color: overlay.shellRoot.volMuted ? "#6c7086" : "#A6E3A1"
+                        color: overlay.shellRoot.volMuted ? overlay.theme.outline : overlay.theme.tertiary
                         border.color: overlay.theme.bg
                         border.width: 2
                     }
@@ -177,8 +177,8 @@ PanelWindow {
                 height: 32
                 radius: 9
                 color: settingsBtnHover.hovered
-                        ? Qt.lighter(overlay.theme.active, 1.6)
-                        : Qt.lighter(overlay.theme.active, 1.3)
+                        ? overlay.theme.hi(1.6)
+                        : overlay.theme.hi(1.3)
 
                 HoverHandler { id: settingsBtnHover }
 

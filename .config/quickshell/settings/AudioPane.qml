@@ -32,7 +32,7 @@ Item {
                 width: 180; height: 28
                 radius: 8
                 color: pavuHover.hovered
-                       ? Qt.lighter(pane.theme.active, 1.4)
+                       ? pane.theme.hi(1.4)
                        : Qt.darker(pane.theme.bg, 1.2)
                 border.color: pane.theme.sep
                 border.width: 1
@@ -88,8 +88,8 @@ Item {
                         height: 34
                         radius: 8
                         color: sinkHover.hovered
-                                ? Qt.lighter(pane.theme.active, 1.2)
-                                : (modelData.active ? Qt.lighter(pane.theme.active, 1.4) : "transparent")
+                                ? pane.theme.hi(1.2)
+                                : (modelData.active ? pane.theme.hi(1.4) : "transparent")
 
                         HoverHandler { id: sinkHover }
 
@@ -100,7 +100,7 @@ Item {
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
                                 text: modelData.active ? "●" : "○"
-                                color: modelData.active ? "#A6E3A1" : pane.theme.fg
+                                color: modelData.active ? pane.theme.tertiary : pane.theme.fg
                                 font.family: pane.theme.ff
                                 font.pixelSize: pane.theme.fs
                             }
@@ -178,7 +178,7 @@ Item {
                     height: parent.height
                     radius: parent.radius
                     width: parent.width * Math.max(0, Math.min(1, (pane.shellRoot.volPct < 0 ? 0 : pane.shellRoot.volPct) / 100))
-                    color: pane.shellRoot.volMuted ? "#6c7086" : "#A6E3A1"
+                    color: pane.shellRoot.volMuted ? pane.theme.outline : pane.theme.tertiary
                 }
 
                 // Draggable handle dot at the fill edge.
@@ -186,7 +186,7 @@ Item {
                     width: 16; height: 16; radius: 8
                     anchors.verticalCenter: parent.verticalCenter
                     x: Math.max(0, Math.min(parent.width - width, volFill.width - width / 2))
-                    color: pane.shellRoot.volMuted ? "#6c7086" : "#A6E3A1"
+                    color: pane.shellRoot.volMuted ? pane.theme.outline : pane.theme.tertiary
                     border.color: pane.theme.bg
                     border.width: 2
                 }
@@ -230,8 +230,8 @@ Item {
                         height: 34
                         radius: 8
                         color: srcHover.hovered
-                                ? Qt.lighter(pane.theme.active, 1.2)
-                                : (modelData.active ? Qt.lighter(pane.theme.active, 1.4) : "transparent")
+                                ? pane.theme.hi(1.2)
+                                : (modelData.active ? pane.theme.hi(1.4) : "transparent")
 
                         HoverHandler { id: srcHover }
 
@@ -242,7 +242,7 @@ Item {
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
                                 text: modelData.active ? "●" : "○"
-                                color: modelData.active ? "#A6E3A1" : pane.theme.fg
+                                color: modelData.active ? pane.theme.tertiary : pane.theme.fg
                                 font.family: pane.theme.ff
                                 font.pixelSize: pane.theme.fs
                             }

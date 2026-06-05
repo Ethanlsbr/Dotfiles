@@ -104,7 +104,7 @@ PanelWindow {
                 id: closeBtn
                 anchors { right: parent.right; top: parent.top; margins: 14 }
                 width: 30; height: 30; radius: 15
-                color: closeHover.hovered ? "#F38BA8" : Qt.darker(overlay.theme.bg, 1.2)
+                color: closeHover.hovered ? overlay.theme.error : Qt.darker(overlay.theme.bg, 1.2)
                 border.color: overlay.theme.sep; border.width: 1
                 HoverHandler { id: closeHover }
                 Text {
@@ -171,7 +171,7 @@ PanelWindow {
                                                 height: 22
                                                 width: keyText.implicitWidth + 16
                                                 radius: 6
-                                                color: Qt.lighter(overlay.theme.active, 1.3)
+                                                color: overlay.theme.hi(1.3)
                                                 border.color: overlay.theme.sep
                                                 border.width: 1
                                                 Text {
@@ -228,7 +228,7 @@ PanelWindow {
                     id: thumb
                     width: parent.width
                     radius: parent.radius
-                    color: Qt.lighter(overlay.theme.active, 1.6)
+                    color: overlay.theme.hi(1.6)
                     height: Math.max(28, scrollbar.height * listFlick.visibleArea.heightRatio)
                     y: listFlick.visibleArea.yPosition * scrollbar.height
 

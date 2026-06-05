@@ -87,7 +87,7 @@ PanelWindow {
                     height: 48
                     radius: 10
                     color: tab.current
-                            ? Qt.lighter(overlay.theme.active, 1.5)
+                            ? overlay.theme.hi(1.5)
                             : (tabHover.hovered ? Qt.lighter(overlay.theme.surface, 1.2)
                                                 : "transparent")
 

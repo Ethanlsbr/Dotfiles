@@ -6,40 +6,47 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
 PACKAGES=(
 	hyprland
-	hyprlang
-	hyprshot
 	hyprlock
+	hypridle
+	hyprshot
+	quickshell-git
 	cava
 	kitty
-	swaylock-effects
-	waybar
-	rofi
-	otf-font-awesome
-	lsd
-	wlogout
-	bat
-	fprintd
-	zsh
-	waypaper
-	swww
+	nautilus
+	zen-browser-bin
+	awww-git
+	pipewire
+	wireplumber
+	pamixer
+	playerctl
 	brightnessctl
-	ttf-jetbrains-mono-nerd
-	ttf-cascadia-code-nerd
-	whitesur-gtk-theme
-	docker
-	xdg-desktop-portal-hyprland
-	xdg-desktop-portal-gtk
-	swaync
-	nwg-look
-	oh-my-posh
-	tela-icon-theme
-	btop
-	blueman
-	hypridle
 	cliphist
 	wl-clip-persist
-	pamixer
-	nautilus
+	wl-clipboard
+	polkit-kde-agent
+	xdg-desktop-portal-hyprland
+	xdg-desktop-portal-gtk
+	libnotify
+	blueman
+	bluez
+	bluez-utils
+	fprintd
+	nwg-look
+	whitesur-gtk-theme
+	tela-icon-theme
+	otf-font-awesome
+	ttf-jetbrains-mono-nerd
+	ttf-cascadia-code-nerd
+	zsh
+	oh-my-posh
+	fastfetch
+	lsd
+	bat
+	btop
+	neovim
+	imagemagick
+	docker
+	gnome-keyring
 )
 
 log() {
@@ -97,21 +104,36 @@ copy_wallpaper()  {
     success "Copy Successfull"
 }
 
+clone_plugin() {
+    local url="$1"
+    local dest="$HOME/.zsh/$2"
+
+    if [[ -d "$dest" ]]; then
+        log "$2 already present, skipping clone."
+    else
+        git clone --depth=1 "$url" "$dest"
+    fi
+}
+
 copy_shell() {
     log "Copying Shell Prompt..."
 
     mkdir -p "$HOME/.zsh"
 	mkdir -p "$HOME/.config"
 
-    cp .zshrc "$HOME/"
-    cp oh-my-posh.toml "$HOME/.config/"
-    git clone https://github.com/zsh-users/zsh-autosuggestions
-    mv "$SCRIPT_DIR/zsh-autosuggestions/" "$HOME/.zsh/"
-    git clone https://github.com/zsh-users/zsh-completions
-    mv  "$SCRIPT_DIR/zsh-completions/" "$HOME/.zsh/"
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting
-    mv "$SCRIPT_DIR/zsh-syntax-highlighting/" "$HOME/.zsh/"
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+        RUNZSH=no CHSH=no KEEP_ZSHRC=yes \
+            sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    else
+        log "Oh My Zsh already installed, skipping."
+    fi
+
+    cp "$SCRIPT_DIR/.zshrc" "$HOME/"
+    cp "$SCRIPT_DIR/oh-my-posh.toml" "$HOME/.config/"
+
+    clone_plugin https://github.com/zsh-users/zsh-autosuggestions zsh-autosuggestions
+    clone_plugin https://github.com/zsh-users/zsh-completions zsh-completions
+    clone_plugin https://github.com/zsh-users/zsh-syntax-highlighting zsh-syntax-highlighting
 
     success "Copy Successfull"
 }
@@ -134,7 +156,7 @@ install_packages() {
 
 
 
-log "Sarting Installation of My Dotfiles"
+log "Starting Installation of My Dotfiles"
 
 # -------------- PACKAGE --------------
 

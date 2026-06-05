@@ -103,7 +103,7 @@ PanelWindow {
                     width:  (col.width - 8) / 3
                     height: 26
                     radius: 8
-                    color:  current ? Qt.lighter(overlay.theme.active, 1.6) : "transparent"
+                    color:  current ? overlay.theme.hi(1.6) : "transparent"
                     border.color: overlay.theme.sep
                     border.width: 1
 
@@ -133,8 +133,8 @@ PanelWindow {
                 height: 32
                 radius: 9
                 color: settingsBtnHover.hovered
-                        ? Qt.lighter(overlay.theme.active, 1.6)
-                        : Qt.lighter(overlay.theme.active, 1.3)
+                        ? overlay.theme.hi(1.6)
+                        : overlay.theme.hi(1.3)
 
                 HoverHandler { id: settingsBtnHover }
 

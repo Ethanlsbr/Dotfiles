@@ -34,20 +34,20 @@ PanelWindow {
 
     ParallelAnimation {
         id: enterAnim
-        NumberAnimation { target: card; property: "opacity"; from: 0; to: 1;   duration: 320; easing.type: Easing.OutCubic }
-        NumberAnimation { target: card;      property: "scale"; from: 0.96; to: 1; duration: 320; easing.type: Easing.OutCubic }
+        NumberAnimation { target: card; property: "opacity"; from: 0; to: 1;   duration: 360; easing.type: Easing.OutCubic }
+        NumberAnimation { target: card;      property: "scale"; from: 0.96; to: 1; duration: 360; easing.type: Easing.OutCubic }
     }
     ParallelAnimation {
         id: exitAnim
-        NumberAnimation { target: card; property: "opacity"; to: 0;   duration: 240; easing.type: Easing.InCubic }
-        NumberAnimation { target: card;      property: "scale"; to: 0.96; duration: 240; easing.type: Easing.InCubic }
+        NumberAnimation { target: card; property: "opacity"; to: 0;   duration: 280; easing.type: Easing.InCubic }
+        NumberAnimation { target: card;      property: "scale"; to: 0.96; duration: 280; easing.type: Easing.InCubic }
     }
 
     Rectangle {
         id: card
         anchors.fill: parent
         color: overlay.theme.bg
-        radius: 16
+        radius: overlay.theme.pr
         border.color: overlay.theme.sep
         border.width: 1
         opacity: 0
@@ -142,7 +142,7 @@ PanelWindow {
                     anchors.verticalCenter: parent.verticalCenter
                     width: 80; height: 22
                     radius: 7
-                    color: clearHover.hovered ? "#F38BA8" : Qt.darker(overlay.theme.bg, 1.1)
+                    color: clearHover.hovered ? overlay.theme.error : Qt.darker(overlay.theme.bg, 1.1)
                     border.color: overlay.theme.sep
                     border.width: 1
                     HoverHandler { id: clearHover }
@@ -203,7 +203,7 @@ PanelWindow {
                                 implicitHeight: Math.max(58, body.y + body.implicitHeight + 10)
                                 radius: 12
                                 color: Qt.darker(overlay.theme.bg, 1.15)
-                                border.color: modelData.urgency === 2 ? "#F38BA8" : overlay.theme.sep
+                                border.color: modelData.urgency === 2 ? overlay.theme.error : overlay.theme.sep
                                 border.width: 1
 
                                 Item {
@@ -291,7 +291,7 @@ PanelWindow {
                                     id: closeN
                                     anchors { right: parent.right; top: parent.top; margins: 8 }
                                     width: 20; height: 20; radius: 10
-                                    color: closeNHover.hovered ? "#F38BA8" : "transparent"
+                                    color: closeNHover.hovered ? overlay.theme.error : "transparent"
                                     HoverHandler { id: closeNHover }
                                     Text {
                                         anchors.centerIn: parent
@@ -325,7 +325,7 @@ PanelWindow {
                         id: sbThumb
                         width: parent.width
                         radius: parent.radius
-                        color: Qt.lighter(overlay.theme.active, 1.6)
+                        color: overlay.theme.hi(1.6)
                         height: Math.max(28, sbTrack.height * notifFlick.visibleArea.heightRatio)
                         y: notifFlick.visibleArea.yPosition * sbTrack.height
 
@@ -358,7 +358,7 @@ PanelWindow {
         width: (col.width - 20) / 3
         height: 58
         radius: 12
-        color: qt.on ? Qt.lighter(overlay.theme.active, 1.5)
+        color: qt.on ? overlay.theme.hi(1.5)
                      : Qt.darker(overlay.theme.bg, 1.15)
         border.color: qt.on ? overlay.theme.primary : overlay.theme.sep
         border.width: 1
@@ -430,13 +430,13 @@ PanelWindow {
                 height: parent.height
                 radius: parent.radius
                 width: parent.width * Math.max(0, Math.min(1, sl.value / 100))
-                color: "#A6E3A1"
+                color: overlay.theme.tertiary
             }
             Rectangle {
                 width: 16; height: 16; radius: 8
                 anchors.verticalCenter: parent.verticalCenter
                 x: Math.max(0, Math.min(parent.width - width, slFill.width - width / 2))
-                color: "#A6E3A1"
+                color: overlay.theme.tertiary
                 border.color: overlay.theme.bg
                 border.width: 2
             }

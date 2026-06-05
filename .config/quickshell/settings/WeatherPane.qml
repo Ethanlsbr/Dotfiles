@@ -97,7 +97,7 @@ Item {
                     anchors { fill: parent; leftMargin: 12; rightMargin: 12 }
                     verticalAlignment: TextInput.AlignVCenter
                     color: pane.theme.fg
-                    selectionColor: Qt.lighter(pane.theme.active, 1.4)
+                    selectionColor: pane.theme.hi(1.4)
                     font.family: pane.theme.ff
                     font.pixelSize: pane.theme.fs - 1
                     text: pane.editLoc
@@ -124,7 +124,7 @@ Item {
             Rectangle {
                 width: 110; height: 32
                 radius: 8
-                color: saveHover.hovered ? Qt.lighter(pane.theme.active, 1.6) : Qt.lighter(pane.theme.active, 1.3)
+                color: saveHover.hovered ? pane.theme.hi(1.6) : pane.theme.hi(1.3)
                 HoverHandler { id: saveHover }
                 Text {
                     anchors.centerIn: parent
@@ -143,7 +143,7 @@ Item {
             Rectangle {
                 width: 110; height: 32
                 radius: 8
-                color: clearHover.hovered ? Qt.lighter(pane.theme.bg, 1.3) : Qt.darker(pane.theme.bg, 1.2)
+                color: clearHover.hovered ? pane.theme.surface : Qt.darker(pane.theme.bg, 1.2)
                 border.color: pane.theme.sep
                 border.width: 1
                 HoverHandler { id: clearHover }
@@ -168,7 +168,7 @@ Item {
             Rectangle {
                 width: 110; height: 32
                 radius: 8
-                color: refreshHover.hovered ? Qt.lighter(pane.theme.bg, 1.3) : Qt.darker(pane.theme.bg, 1.2)
+                color: refreshHover.hovered ? pane.theme.surface : Qt.darker(pane.theme.bg, 1.2)
                 border.color: pane.theme.sep
                 border.width: 1
                 HoverHandler { id: refreshHover }
