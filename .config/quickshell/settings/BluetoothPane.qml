@@ -302,15 +302,27 @@ Item {
                             MouseArea {
                                 anchors.fill: parent
                                 cursorShape: Qt.PointingHandCursor
-                                // Trust on connect so BlueZ auto-reconnects when
-                                // the device powers back on, instead of forcing a
-                                // fresh pairing each time.
                                 onClicked: {
                                     if (modelData.connected) {
                                         modelData.connected = false
-                                    } else {
+                                    } else if (modelData.paired || modelData.bonded) {
+                                        // Already bonded — reconnect, and keep it
+                                        // trusted so BlueZ auto-reconnects when the
+                                        // device powers back on.
                                         modelData.trusted = true
                                         modelData.connected = true
+                                    } else {
+                                        // Brand-new device: bond it (store a link key)
+                                        // with Quickshell's native pair(). A bare
+                                        // Device.Connect() never bonds, so reconnects
+                                        // would die with "br-connection-key-missing".
+                                        // pair() needs a pairing agent alive — shell.qml
+                                        // keeps a session-long bluetoothctl agent
+                                        // (btAgentProc) for exactly this. Trust up front
+                                        // so BlueZ auto-reconnects later; it auto-
+                                        // connects the audio profiles once bonded.
+                                        modelData.pair()
+                                        modelData.trusted = true
                                     }
                                 }
                             }

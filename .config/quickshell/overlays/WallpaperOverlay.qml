@@ -32,12 +32,13 @@ PanelWindow {
     property int    currentIndex: 0
 
     readonly property var filtered: {
-        const list = shellRoot.wallpaperList || []
+        // Ordered by file modification time (most recently added first).
+        const list = shellRoot.recentWallpapers || []
         const q = searchText.trim().toLowerCase()
         if (!q) return list
         return list.filter(p => p.toLowerCase().includes(q))
     }
-    readonly property bool folderEmpty: (shellRoot.wallpaperList || []).length === 0
+    readonly property bool folderEmpty: (shellRoot.recentWallpapers || []).length === 0
 
     function next()  { if (filtered.length) currentIndex = (currentIndex + 1) % filtered.length }
     function prev()  { if (filtered.length) currentIndex = (currentIndex - 1 + filtered.length) % filtered.length }

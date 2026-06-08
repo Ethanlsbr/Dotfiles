@@ -196,8 +196,12 @@ ShellRoot {
     // ── Wallpaper picker state ───────────────────────────────────────────
     readonly property string wallpaperFolder: "/home/ethan/Pictures/wallpaper"
     property bool wallpaperPickerOpen: false
-    property var  wallpaperList:       []
-    property var  _wallpaperBuffer:    []
+
+    // All wallpapers, ordered by file modification time (most recently added
+    // first). Shared by both the settings pane and the bottom-bar picker.
+    // Populated by recentWallpapersProc.
+    property var  recentWallpapers:    []
+    property var  _recentBuffer:       []
 
     // Thumbnail cache so the settings grid loads small JPEGs instead of
     // decoding multi-MB originals per cell. thumbForWallpaper() maps a source
@@ -215,8 +219,9 @@ ShellRoot {
     function closeWallpaperPicker() { wallpaperPickerOpen = false }
     onWallpaperPickerOpenChanged: if (!wallpaperPickerOpen) refocusLastWindow()
     function refreshWallpapers() {
-        wallpaperListProc.running = false
-        wallpaperListProc.running = true
+        // Wallpaper list, ordered by modification time (most recently added first).
+        recentWallpapersProc.running = false
+        recentWallpapersProc.running = true
         // (Re)generate any missing/stale thumbnails in the background.
         wallpaperThumbProc.running = false
         wallpaperThumbProc.running = true
@@ -1314,6 +1319,21 @@ ShellRoot {
     Process { id: playerctlToggleProc;   command: ["playerctl", "-p", "spotify", "play-pause"] }
     Process { id: playerctlNextProc;     command: ["playerctl", "-p", "spotify", "next"] }
     Process { id: playerctlPrevProc;     command: ["playerctl", "-p", "spotify", "previous"] }
+
+    // Session-long Bluetooth pairing agent. Quickshell.Bluetooth ships no
+    // pairing agent of its own, so BluetoothDevice.pair() can't complete a
+    // bond without one — the link key never persists and reconnects die with
+    // "br-connection-key-missing". Keep a bluetoothctl instance registered as
+    // the default agent for the whole session (echo feeds the command, then
+    // sleep holds stdin open so it stays alive) so in-shell pairing bonds.
+    Process {
+        id: btAgentProc
+        running: true
+        command: ["sh", "-c", "{ echo default-agent; sleep infinity; } | bluetoothctl"]
+        onExited: btAgentRestart.restart()
+    }
+    Timer { id: btAgentRestart; interval: 2000; onTriggered: btAgentProc.running = true }
+
     // Snapshot the currently-active toplevel just before opening a keyboard-
     // grabbing overlay; `_pendingOverlay` tells us which one to actually
     // open once the address is in hand.
@@ -1443,21 +1463,25 @@ ShellRoot {
     }
 
     // ── Wallpaper list + setter (uses awww) ─────────────────────────────
+    // Lists wallpapers ordered by file modification time (most recently added
+    // first): `find -printf '<mtime>\t<path>'` then numeric reverse-sort on
+    // mtime. Drives both the settings pane and the bottom-bar picker.
     Process {
-        id: wallpaperListProc
+        id: recentWallpapersProc
         environment: ({ DIR: root.wallpaperFolder })
         command: ["sh", "-c",
             "find \"$DIR\" -maxdepth 1 -type f " +
             "\\( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' " +
-            "   -o -iname '*.webp' -o -iname '*.bmp' \\) 2>/dev/null | sort"]
-        onRunningChanged: if (running) root._wallpaperBuffer = []
+            "   -o -iname '*.webp' -o -iname '*.bmp' \\) -printf '%T@\\t%p\\n' 2>/dev/null " +
+            "| sort -rn | cut -f2-"]
+        onRunningChanged: if (running) root._recentBuffer = []
         stdout: SplitParser {
             onRead: line => {
                 const p = line.trim()
-                if (p) root._wallpaperBuffer.push(p)
+                if (p) root._recentBuffer.push(p)
             }
         }
-        onExited: root.wallpaperList = root._wallpaperBuffer.slice()
+        onExited: root.recentWallpapers = root._recentBuffer.slice()
     }
 
     // Background thumbnail generation (see scripts/wallpaper-thumbs.sh). While

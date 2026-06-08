@@ -13,13 +13,15 @@ Item {
     property string searchText:  ""
     property string appliedPath:  ""
 
+    // All wallpapers, always ordered by file modification time (most recently
+    // added first), with the filename search applied on top.
     readonly property var filtered: {
-        const list = pane.shellRoot.wallpaperList || []
+        const base = pane.shellRoot.recentWallpapers || []
         const q = searchText.trim().toLowerCase()
-        if (!q) return list
-        return list.filter(p => p.toLowerCase().includes(q))
+        if (!q) return base
+        return base.filter(p => p.toLowerCase().includes(q))
     }
-    readonly property bool folderEmpty: (pane.shellRoot.wallpaperList || []).length === 0
+    readonly property bool folderEmpty: (pane.shellRoot.recentWallpapers || []).length === 0
 
     function apply(p) {
         if (!p) return
