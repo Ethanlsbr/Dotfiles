@@ -15,6 +15,14 @@ import "./settings"
 ShellRoot {
     id: root
 
+    // ── Paths ───────────────────────────────────────────────────────────────
+    // Resolved at runtime so the config works for any user, not just one
+    // hard-coded $HOME. configDir points at this quickshell config directory
+    // (derived from where shell.qml lives).
+    readonly property string homeDir: Quickshell.env("HOME")
+    readonly property string configDir:
+        Qt.resolvedUrl(".").toString().replace("file://", "").replace(/\/$/, "")
+
     // ── State ──────────────────────────────────────────────────────────────
     property string mediaText:  ""
     property string netIcon:    "󰌙"
@@ -169,7 +177,8 @@ ShellRoot {
     Process {
         id: barMonitorsLoadProc
         running: true
-        command: ["sh", "-c", "cat /home/ethan/.config/quickshell/bar-monitors.txt 2>/dev/null || true"]
+        command: ["sh", "-c", "cat \"$FILE\" 2>/dev/null || true"]
+        environment: ({ FILE: root.configDir + "/bar-monitors.txt" })
         property var _buf: []
         onRunningChanged: if (running) _buf = []
         stdout: SplitParser { onRead: line => { const s = line.trim(); if (s) barMonitorsLoadProc._buf.push(s) } }
@@ -178,8 +187,8 @@ ShellRoot {
     Process {
         id: barMonitorsSaveProc
         property string data: ""
-        environment: ({ DATA: data })
-        command: ["sh", "-c", "printf '%s' \"$DATA\" > /home/ethan/.config/quickshell/bar-monitors.txt"]
+        environment: ({ DATA: data, FILE: root.configDir + "/bar-monitors.txt" })
+        command: ["sh", "-c", "printf '%s' \"$DATA\" > \"$FILE\""]
     }
 
     // External control: `qs ipc call notifications toggle|open|close`
@@ -194,7 +203,7 @@ ShellRoot {
     }
 
     // ── Wallpaper picker state ───────────────────────────────────────────
-    readonly property string wallpaperFolder: "/home/ethan/Pictures/wallpaper"
+    readonly property string wallpaperFolder: root.homeDir + "/Pictures/wallpaper"
     property bool wallpaperPickerOpen: false
 
     // All wallpapers, ordered by file modification time (most recently added
@@ -207,7 +216,7 @@ ShellRoot {
     // decoding multi-MB originals per cell. thumbForWallpaper() maps a source
     // path to its cached thumb; wallpaperThumbTick bumps as generation
     // progresses so views can retry loading thumbs that weren't ready yet.
-    readonly property string wallpaperThumbDir: "/home/ethan/.cache/quickshell/wallpaper-thumbs"
+    readonly property string wallpaperThumbDir: root.homeDir + "/.cache/quickshell/wallpaper-thumbs"
     property int  wallpaperThumbTick: 0
     readonly property bool wallpaperThumbBusy: wallpaperThumbProc.running
     function thumbForWallpaper(path) {
@@ -317,7 +326,8 @@ ShellRoot {
     Process {
         id: themeLoadProc
         running: true
-        command: ["sh", "-c", "cat /home/ethan/.config/quickshell/theme.txt 2>/dev/null || true"]
+        command: ["sh", "-c", "cat \"$FILE\" 2>/dev/null || true"]
+        environment: ({ FILE: root.configDir + "/theme.txt" })
         stdout: SplitParser {
             onRead: line => { const t = line.trim(); if (t === "light" || t === "dark") root.themeName = t }
         }
@@ -325,8 +335,8 @@ ShellRoot {
     Process {
         id: themeSaveProc
         property string target: ""
-        environment: ({ T: target })
-        command: ["sh", "-c", "printf '%s' \"$T\" > /home/ethan/.config/quickshell/theme.txt"]
+        environment: ({ T: target, FILE: root.configDir + "/theme.txt" })
+        command: ["sh", "-c", "printf '%s' \"$T\" > \"$FILE\""]
     }
     IpcHandler {
         target: "theme"
@@ -1511,7 +1521,7 @@ ShellRoot {
         property string target: ""
         environment: ({
             WP:       target,
-            HYPRLOCK: "/home/ethan/.config/hypr/hyprlock.conf"
+            HYPRLOCK: root.homeDir + "/.config/hypr/hyprlock.conf"
         })
         // awww caches each displayed image per-output, so `awww restore` at
         // login brings this back — no waypaper involved (see
@@ -1634,7 +1644,8 @@ ShellRoot {
     Process {
         id: weatherLoadProc
         running: true
-        command: ["sh", "-c", "cat /home/ethan/.config/quickshell/weather-location.txt 2>/dev/null || true"]
+        command: ["sh", "-c", "cat \"$FILE\" 2>/dev/null || true"]
+        environment: ({ FILE: root.configDir + "/weather-location.txt" })
         stdout: SplitParser {
             onRead: line => root.weatherLocation = line.trim()
         }
@@ -1643,8 +1654,8 @@ ShellRoot {
     Process {
         id: weatherSaveProc
         property string target: ""
-        command: ["sh", "-c", "printf '%s' \"$LOC\" > /home/ethan/.config/quickshell/weather-location.txt"]
-        environment: ({ LOC: target })
+        command: ["sh", "-c", "printf '%s' \"$LOC\" > \"$FILE\""]
+        environment: ({ LOC: target, FILE: root.configDir + "/weather-location.txt" })
     }
 
     Process {

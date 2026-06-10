@@ -143,7 +143,7 @@ Item {
                             anchors.fill: parent
                             fillMode: Image.PreserveAspectCrop
                             asynchronous: true
-                            source: "file:///home/ethan/.config/hypr/user.png"
+                            source: "file://" + pane.shellRoot.homeDir + "/.config/hypr/user.png"
                         }
                     }
 
