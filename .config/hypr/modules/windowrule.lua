@@ -55,3 +55,56 @@ hl.window_rule ({
     float = true,
     size = { 1300, 800 }
 })
+
+hl.window_rule ({
+    name = "Quickshell task manager floating",
+    match = {
+        class = "org.quickshell",
+        title = "Task Manager"
+    },
+    float = true,
+    size = { 1000, 680 }
+})
+
+hl.window_rule ({
+    name = "File picker dialogs floating",
+    match = {
+        class = "xdg-desktop-portal-gtk"
+    },
+    float = true,
+    size = { 1000, 650 }
+})
+
+hl.window_rule ({
+    name = "Spotify floating size",
+    match = {
+        class = "Spotify"
+    },
+    size = { 1300, 800}
+})
+
+hl.window_rule ({
+    name = "Minecraft floating",
+    match = {
+        class = "Minecraft Launcher",
+        title = "Minecraft Launcher"
+    },
+    float = true,
+    size = { 1300, 800}
+})
+
+-- hl.window_rule ({
+--     name = "Vscode Transparency",
+--     match = {
+--         class = "code"
+--     },
+--     opacity = "0.8 0.8"
+-- })
+hl.window_rule({
+    name = "Quickshell uninstall terminal floating",
+    match = {
+        class = "qs-uninstall"
+    },
+    float = true,
+    size = { 900, 550 }
+})

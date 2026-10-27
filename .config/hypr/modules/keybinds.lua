@@ -8,7 +8,6 @@ local brightness    = scriptDir .. "/brightness_ctl.sh"
 local media         = scriptDir .. "/media_ctl.sh"
 local toggleShell   = scriptDir .. "/quickshell_toggle.sh"
 local reloadShell   = scriptDir .. "/reload_quickshell.sh"
-local logout        = "killall -9 wlogout || wlogout"
 local screenshot    = "hyprshot -m region -o ~/Pictures/Screenshots"
 local terminal      = "kitty"
 local fileManager   = "nautilus"
@@ -80,7 +79,6 @@ hl.bind(mainMod .. " + Y", hl.dsp.focus({ workspace = 6 }))
 hl.bind(mainMod .. " + U", hl.dsp.focus({ workspace = 7 }))
 
 -- Move
-
 hl.bind("ALT + A", hl.dsp.window.move({ workspace = 1 }))
 hl.bind("ALT + Z", hl.dsp.window.move({ workspace = 2 }))
 hl.bind("ALT + E", hl.dsp.window.move({ workspace = 3 }))
@@ -89,11 +87,17 @@ hl.bind("ALT + T", hl.dsp.window.move({ workspace = 5 }))
 hl.bind("ALT + Y", hl.dsp.window.move({ workspace = 6 }))
 hl.bind("ALT + U", hl.dsp.window.move({ workspace = 7 }))
 
+hl.bind("ALT + left", hl.dsp.window.move({ direction = "left" }))
+hl.bind("ALT + right", hl.dsp.window.move({ direction = "right" }))
+
 -- Mouse Behavior
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag())
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize())
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1"}))
 hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1"}))
+
+-- Task Manager (like Windows)
+hl.bind("CTRL + SHIFT + Escape", hl.dsp.exec_cmd("qs ipc call taskmanager toggle"))
 
 -- Clipboard History
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("qs ipc call clipboard toggle"))

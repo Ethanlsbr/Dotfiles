@@ -9,9 +9,10 @@ hl.config({
 
     input = {
         kb_layout  = "fr",
+        kb_options = "caps:shiftlock",
         repeat_rate = 40,
         repeat_delay = 375,
-        follow_mouse = 0,
+        follow_mouse = 1,
         sensitivity = 0,
         float_switch_override_focus = 0,
         touchpad = {
@@ -20,7 +21,7 @@ hl.config({
     },
 
     general = {
-        gaps_in  = 9,
+        gaps_in  = 5,
         gaps_out = 13,
         border_size = 1,
         col = {
@@ -34,6 +35,7 @@ hl.config({
 
     misc = {
         disable_hyprland_logo = true,
+        allow_session_lock_restore = true,  -- a new locker may take over if the old one crashed
         disable_splash_rendering = true,
         mouse_move_enables_dpms = true,
         animate_manual_resizes = false,

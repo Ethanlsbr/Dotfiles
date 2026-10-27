@@ -1,5 +1,3 @@
 #!/bin/bash
 
-killall -9 quickshell
-
-quickshell &
+qs kill && qs -d

@@ -31,9 +31,25 @@ notify_user() {
 	notify-send -e -h string:x-canonical-private-synchronous:brightness_notif -h int:value:$current -u low -i "$icon" "Brightness : $current%"
 }
 
-# Change brightness
-change_backlight() {
-	brightnessctl set "$1" && get_icon && notify_user
+# Set brightness to an absolute percentage (clamped to 1..100, never 0 → black)
+set_backlight() {
+	local target="$1"
+	[ "$target" -lt 1 ]   && target=1
+	[ "$target" -gt 100 ] && target=100
+	brightnessctl set "${target}%" && get_icon && notify_user
+}
+
+# Step to the next/previous multiple of 10 (e.g. 55 → 60 → 70 up, 55 → 50 → 40 down)
+step_backlight() {
+	local cur next
+	cur=$(get_backlight | sed 's/%//')
+	if [ "$1" = "inc" ]; then
+		next=$(( (cur / 10 + 1) * 10 ))
+	else
+		# round up to the next multiple of 10, then drop one step
+		next=$(( ( (cur + 9) / 10 - 1) * 10 ))
+	fi
+	set_backlight "$next"
 }
 
 # Execute accordingly
@@ -42,10 +58,10 @@ case "$1" in
 		get_backlight
 		;;
 	"--inc")
-		change_backlight "+10%"
+		step_backlight inc
 		;;
 	"--dec")
-		change_backlight "10%-"
+		step_backlight dec
 		;;
 	*)
 		get_backlight

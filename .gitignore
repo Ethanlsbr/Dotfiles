@@ -1,0 +1,6 @@
+# Machine-specific Quickshell settings
+.config/quickshell/state/weather-location.txt
+.config/quickshell/state/shell-scale.txt
+.config/quickshell/state/bar-monitors.txt
+
+__pycache__/
