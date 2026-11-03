@@ -17,6 +17,9 @@ hl.config({
         float_switch_override_focus = 0,
         touchpad = {
             natural_scroll = true,
+            -- disable_while_typing = false,
+            -- tap_to_click = true,
+            -- clickfinger_behavior = false,
         },
     },
 

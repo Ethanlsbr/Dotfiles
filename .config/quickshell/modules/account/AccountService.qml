@@ -9,7 +9,9 @@ import qs.common
 // The avatar is ~/.config/hypr/user.png — also hyprlock's. Changing it is two
 // steps: pickAvatar() (zenity) loads the image into the cropper
 // (cropSource), then applyCrop() saves the chosen circle as a 512×512 PNG
-// with transparent corners.
+// with transparent corners. An animated GIF also gets the same crop saved as
+// user.gif (square: AvatarImage's parents clip it); the PNG stays as its first
+// frame, for hyprlock and as AvatarImage's still.
 Singleton {
     id: root
 
@@ -34,17 +36,26 @@ Singleton {
     readonly property string avatarUrl: "file://" + avatarPath + "?rev=" + avatarRev
     // Whether a picture is set (re-checked after every change).
     property bool hasAvatar: false
+    readonly property string avatarGifPath: Paths.homeDir + "/.config/hypr/user.gif"
+    readonly property string avatarGifUrl: "file://" + avatarGifPath + "?rev=" + avatarRev
+    // Whether the picture is animated (re-checked along with hasAvatar).
+    property bool avatarAnimated: false
 
     property bool picking: false
     function pickAvatar() {
         if (picking || saving) return
         picking = true
+        cropAnimated = false
         pickProc.running = true
     }
 
     // Cropper input: an auto-oriented PNG copy (≤2048 px) of the picked
     // image, so what the cropper shows maps 1:1 onto what gets cropped.
     readonly property string cropPath: Paths.homeDir + "/.cache/quickshell/avatar-source.png"
+    // Copy of the picked file when it's an animated GIF; the cropper shows
+    // its first frame, applyCrop() crops every frame.
+    readonly property string cropGifPath: Paths.homeDir + "/.cache/quickshell/avatar-source.gif"
+    property bool   cropAnimated: false
     property int    cropRev: 0
     // Non-empty while the cropper is open.
     property string cropSource: ""
@@ -95,19 +106,24 @@ Singleton {
     Process {
         id: avatarCheckProc
         running: true
-        environment: ({ F: root.avatarPath })
-        command: ["sh", "-c", "test -f \"$F\""]
-        onExited: code => root.hasAvatar = code === 0
+        environment: ({ F: root.avatarPath, G: root.avatarGifPath })
+        // 0: picture, 2: animated picture, 1: none
+        command: ["sh", "-c", "test -f \"$F\" || exit 1; test -f \"$G\" && exit 2; exit 0"]
+        onExited: code => {
+            root.hasAvatar = code !== 1
+            root.avatarAnimated = code === 2
+        }
     }
     function _avatarChanged() {
+        avatarAnimated = false
         avatarRev++
         avatarCheckProc.running = false
         avatarCheckProc.running = true
     }
     Process {
         id: removeProc
-        environment: ({ F: root.avatarPath })
-        command: ["sh", "-c", "rm -f \"$F\""]
+        environment: ({ F: root.avatarPath, G: root.avatarGifPath })
+        command: ["sh", "-c", "rm -f \"$F\" \"$G\""]
         onExited: root._avatarChanged()
     }
 
@@ -115,12 +131,16 @@ Singleton {
     // an unreadable file) exits non-zero and leaves everything alone.
     Process {
         id: pickProc
-        environment: ({ TMP: root.cropPath, START: Paths.homeDir + "/Pictures/" })
+        environment: ({ TMP: root.cropPath, GIF: root.cropGifPath, START: Paths.homeDir + "/Pictures/" })
         command: ["sh", "-c",
             "f=$(zenity --file-selection --title='Choose a profile picture' --filename=\"$START\" " +
             "--file-filter='Images | *.png *.jpg *.jpeg *.webp *.bmp *.gif' 2>/dev/null) || exit 1; " +
             "mkdir -p \"$(dirname \"$TMP\")\" && " +
-            "magick \"$f[0]\" -auto-orient -resize '2048x2048>' \"png:$TMP\""]
+            "magick \"$f[0]\" -auto-orient -resize '2048x2048>' \"png:$TMP\" || exit 1; " +
+            "rm -f \"$GIF\"; " +
+            "case \"$(magick identify -ping -format '%m %n\\n' \"$f\" 2>/dev/null | head -n1)\" in " +
+            "'GIF 1') ;; 'GIF '*) cp \"$f\" \"$GIF\" && echo animated ;; esac; exit 0"]
+        stdout: SplitParser { onRead: line => { if (line === "animated") root.cropAnimated = true } }
         onExited: code => {
             root.picking = false
             if (code !== 0) return
@@ -129,16 +149,25 @@ Singleton {
         }
     }
 
-    // Crop the chosen square, scale to 512, mask to a circle.
+    // Crop the chosen square, scale to 512, mask to a circle; for a GIF, also
+    // crop every frame (resized like the cropper's copy, so GEO maps onto it).
+    // Both are swapped in at the end, so a failure keeps the old picture.
     Process {
         id: cropProc
         property string geometry: ""
-        environment: ({ TMP: root.cropPath, OUT: root.avatarPath, GEO: geometry })
+        environment: ({ TMP: root.cropPath, SRC: root.cropAnimated ? root.cropGifPath : "",
+                        OUT: root.avatarPath, GIF: root.avatarGifPath, GEO: geometry })
         command: ["sh", "-c",
+            "trap 'rm -f \"$OUT.tmp\" \"$GIF.tmp\"' EXIT; " +
             "mkdir -p \"$(dirname \"$OUT\")\" && " +
             "magick \"$TMP\" -crop \"$GEO\" +repage -resize '512x512!' " +
             "\\( -size 512x512 xc:black -fill white -draw 'circle 256,256 256,0' \\) " +
-            "-alpha off -compose CopyOpacity -composite \"png:$OUT\""]
+            "-alpha off -compose CopyOpacity -composite \"png:$OUT.tmp\" || exit 1; " +
+            "if [ -n \"$SRC\" ]; then " +
+            "magick \"$SRC\" -coalesce -resize '2048x2048>' -crop \"$GEO\" +repage -resize '336x336!' " +
+            "-layers Optimize \"gif:$GIF.tmp\" && mv -f \"$GIF.tmp\" \"$GIF\" || exit 1; " +
+            "else rm -f \"$GIF\"; fi; " +
+            "mv -f \"$OUT.tmp\" \"$OUT\""]
         onExited: code => {
             root.saving = false
             if (code !== 0) { console.log("avatar crop failed, code", code); return }

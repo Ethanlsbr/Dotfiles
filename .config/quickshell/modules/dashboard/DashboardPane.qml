@@ -144,13 +144,11 @@ Item {
                             font.family: pane.theme.ff; font.pixelSize: 38
                             visible: avatarImg.status !== Image.Ready
                         }
-                        Image {
+                        AvatarImage {
                             id: avatarImg
                             anchors.fill: parent
-                            fillMode: Image.PreserveAspectCrop
-                            asynchronous: true
-                            source: AccountService.avatarUrl
                             cache: false
+                            playing: pane.live
                         }
                     }
 

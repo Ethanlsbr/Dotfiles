@@ -15,6 +15,8 @@ FocusScope {
     property string screenName: ""
 
     readonly property bool prompt: LockService.prompt
+    // Curtain changes are instant going to sleep: no time left to fade.
+    readonly property bool animate: !LockService.sleeping
     readonly property color ink: "white"
     readonly property color inkDim: Qt.rgba(1, 1, 1, 0.72)
     // Text face closest to Segoe UI; theme.ff (Nerd Font) stays for icons.
@@ -69,7 +71,10 @@ FocusScope {
         id: wallpaper
         anchors.fill: parent
         visible: false
-        source: LockService.wallpaperFor(root.screenName) ? "file://" + LockService.wallpaperFor(root.screenName) : ""
+        // Wait for the surface size: a 0×0 sourceSize would decode at full
+        // resolution, then again once the size arrives.
+        source: root.width > 0 && LockService.wallpaperFor(root.screenName)
+                ? "file://" + LockService.wallpaperFor(root.screenName) : ""
         sourceSize: Qt.size(root.width, root.height)
         fillMode: Image.PreserveAspectCrop
         asynchronous: true
@@ -82,8 +87,8 @@ FocusScope {
         blurMax: 64
         blur: root.prompt ? 1 : 0
         brightness: root.prompt ? -0.18 : -0.04
-        Behavior on blur { NumberAnimation { duration: 350; easing.type: Easing.OutCubic } }
-        Behavior on brightness { NumberAnimation { duration: 350; easing.type: Easing.OutCubic } }
+        Behavior on blur { enabled: root.animate; NumberAnimation { duration: 350; easing.type: Easing.OutCubic } }
+        Behavior on brightness { enabled: root.animate; NumberAnimation { duration: 350; easing.type: Easing.OutCubic } }
     }
     // Soft bottom shade so the status icons stay legible.
     Rectangle {
@@ -102,8 +107,8 @@ FocusScope {
         y: root.height * 0.12 + (root.prompt ? -60 : 0)
         opacity: root.prompt ? 0 : 1
         spacing: 0
-        Behavior on y { NumberAnimation { duration: 350; easing.type: Easing.OutCubic } }
-        Behavior on opacity { NumberAnimation { duration: 250 } }
+        Behavior on y { enabled: root.animate; NumberAnimation { duration: 350; easing.type: Easing.OutCubic } }
+        Behavior on opacity { enabled: root.animate; NumberAnimation { duration: 250 } }
 
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
@@ -143,20 +148,19 @@ FocusScope {
         opacity: root.prompt ? 1 : 0
         visible: opacity > 0
         scale: root.prompt ? 1 : 0.94
-        Behavior on opacity { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
-        Behavior on scale { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
+        Behavior on opacity { enabled: root.animate; NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
+        Behavior on scale { enabled: root.animate; NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
 
         ClippingRectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             width: 168; height: 168; radius: 84
             color: Qt.rgba(1, 1, 1, 0.15)
-            Image {
+            AvatarImage {
                 anchors.fill: parent
                 visible: AccountService.hasAvatar
-                source: AccountService.hasAvatar ? AccountService.avatarUrl : ""
+                active: AccountService.hasAvatar
+                playing: root.prompt
                 sourceSize: Qt.size(336, 336)
-                fillMode: Image.PreserveAspectCrop
-                asynchronous: true
             }
             Text {
                 anchors.centerIn: parent

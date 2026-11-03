@@ -8,6 +8,7 @@ local brightness    = scriptDir .. "/brightness_ctl.sh"
 local media         = scriptDir .. "/media_ctl.sh"
 local toggleShell   = scriptDir .. "/quickshell_toggle.sh"
 local reloadShell   = scriptDir .. "/reload_quickshell.sh"
+local logout        = "killall -9 wlogout || wlogout"
 local screenshot    = "hyprshot -m region -o ~/Pictures/Screenshots"
 local terminal      = "kitty"
 local fileManager   = "nautilus"
@@ -51,7 +52,6 @@ hl.bind(mainMod .. " + C", hl.dsp.window.close())
 hl.bind(mainMod .. " + S", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle" }))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo({ action = "toggle" }))
-hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.resize)
 
 -- Resizing Window
 hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.resize({ x = 50, y = 0, relative = true}), { repeating = true })

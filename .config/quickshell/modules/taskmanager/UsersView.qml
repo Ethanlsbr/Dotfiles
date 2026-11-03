@@ -117,13 +117,11 @@ FocusScope {
                 font.family: view.theme.ff; font.bold: true
                 font.pixelSize: av.height * 0.44
             }
-            Image {
+            AvatarImage {
                 id: avImg
                 anchors.fill: parent
                 visible: av.own
-                source: av.own ? AccountService.avatarUrl : ""
-                fillMode: Image.PreserveAspectCrop
-                asynchronous: true
+                active: av.own
                 sourceSize: Qt.size(av.width * 2, av.height * 2)
             }
         }

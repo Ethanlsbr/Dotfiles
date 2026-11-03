@@ -28,11 +28,13 @@ Singleton {
     property int failTick: 0
     // Fade-out running before the lock is released.
     property bool unlocking: false
+    // Between hypridle's before_sleep_cmd and after_sleep_cmd: stays on the
+    // clock, whatever input or fingerprint errors arrive meanwhile.
+    property bool sleeping: false
 
     function lock() {
         if (locked) return
         refreshWallpapers()
-        FingerprintService.refresh()
         refreshFaillock()
         buffer = ""; error = ""; prompt = false; busy = false; unlocking = false
         fpFailRounds = 0
@@ -40,7 +42,7 @@ Singleton {
         Quickshell.execDetached(["touch", lockMarker])
     }
 
-    function showPrompt() { if (!prompt) { prompt = true; error = lockedOut ? lockoutText() : "" } }
+    function showPrompt() { if (!prompt && !sleeping) { prompt = true; error = lockedOut ? lockoutText() : "" } }
     function hidePrompt() { if (!busy) { prompt = false; buffer = ""; error = "" } }
     function type(text) { if (!busy && !lockedOut) { buffer += text; error = "" } }
     function backspace(all) { if (!busy) buffer = all ? "" : buffer.slice(0, -1) }
@@ -199,8 +201,10 @@ Singleton {
         }
     }
     // ── Fingerprint (runs the whole time the screen is locked) ──────────
-    // Off while FingerprintService re-checks (on every lock), so nothing
-    // fingerprint-related shows from stale state, e.g. after fprintd was removed.
+    // Uses FingerprintService's cached state (kept fresh by its pacman.log
+    // watch) instead of re-checking on lock: a lock from before_sleep_cmd
+    // would start fprintd mid-suspend, where it can't take its sleep
+    // inhibitor, and the re-check only finishes after resume.
     readonly property bool fingerprintReady: FingerprintService.installed && !FingerprintService.refreshing
                                              && FingerprintService.hasDevice
                                              && FingerprintService.enrolled.length > 0
@@ -243,11 +247,38 @@ Singleton {
         }
         onError: err => { fpRestart.interval = 5000; if (root.fpWanted) fpRestart.restart() }
     }
-    // Short pause between attempts (also lets the device settle after resume).
+    // Short pause between attempts.
     Timer {
         id: fpRestart
         interval: 1200
         onTriggered: if (root.fpWanted && !fpPam.active) fpPam.start()
+    }
+    // Before suspend (hypridle before_sleep_cmd): the frame drawn now is the
+    // one the screen shows on resume, so it has to be the clock already.
+    function sleep() {
+        sleeping = true
+        sleepGuard.restart()
+        lock()
+        hidePrompt()
+    }
+    // Clock time doesn't advance while suspended: only opens the prompt again
+    // if the sleep never happened or after_sleep_cmd never came.
+    Timer {
+        id: sleepGuard
+        interval: 10000
+        onTriggered: root.sleeping = false
+    }
+    // After resume (hypridle after_sleep_cmd): the reader was reset over USB,
+    // so a scan session opened before sleep is dead; back to the clock and
+    // listen again right away.
+    function wake() {
+        sleepGuard.stop()
+        sleeping = false
+        if (!locked || unlocking) return
+        hidePrompt()
+        if (fpPam.active) fpPam.abort()
+        fpRestart.interval = 300
+        if (fpWanted) fpRestart.restart()
     }
 
     // Back to the clock after 30 s without input on the prompt.
@@ -267,8 +298,12 @@ Singleton {
         onTriggered: root.now = new Date()
     }
 
-    // ── Per-output wallpaper (awww query) ────────────────────────────────
+    // ── Per-output wallpaper (lock-wallpapers.sh) ────────────────────────
+    // Screen-sized JPEG copies of awww's current wallpapers, rebuilt on
+    // startup and when WallpaperService applies one, so a lock only decodes
+    // a small image.
     property var wallpapers: ({})
+    readonly property string wallpaperCacheDir: Paths.homeDir + "/.cache/quickshell/lock-wallpapers"
     function wallpaperFor(output) {
         return wallpapers[output] || Object.values(wallpapers)[0] || ""
     }
@@ -278,14 +313,14 @@ Singleton {
     }
     Process {
         id: wallpaperProc
-        command: ["awww", "query"]
+        command: [Paths.local(Qt.resolvedUrl("lock-wallpapers.sh")), root.wallpaperCacheDir]
         property var _acc: ({})
         onRunningChanged: if (running) _acc = {}
-        // ": eDP-1: 1920x1200, scale: 1, currently displaying: image: /path"
+        // "eDP-1\t/path/to/image"
         stdout: SplitParser {
             onRead: line => {
-                const m = line.match(/^[:\s]*([^:\s]+):.*image:\s*(.+)$/)
-                if (m) wallpaperProc._acc[m[1]] = m[2].trim()
+                const i = line.indexOf("\t")
+                if (i > 0) wallpaperProc._acc[line.slice(0, i)] = line.slice(i + 1)
             }
         }
         onExited: (code, status) => {
@@ -296,6 +331,8 @@ Singleton {
     IpcHandler {
         target: "lock"
         function lock() { root.lock() }
+        function sleep() { root.sleep() }
+        function wake() { root.wake() }
         function isLocked(): bool { return root.locked }
     }
 

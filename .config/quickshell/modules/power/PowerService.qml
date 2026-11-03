@@ -15,7 +15,7 @@ Singleton {
         if      (which === "shutdown")  Quickshell.execDetached(["systemctl", "poweroff"])
         else if (which === "reboot")    Quickshell.execDetached(["systemctl", "reboot"])
         else if (which === "suspend")   Quickshell.execDetached(["systemctl", "suspend"])
-        // Quickshell lockscreen.
+        // Quickshell lockscreen (hyprlock if the shell can't take the lock).
         else if (which === "lock")      Quickshell.execDetached([Quickshell.env("HOME") + "/.config/hypr/scripts/lock.sh"])
         root.powerOpen = false
     }

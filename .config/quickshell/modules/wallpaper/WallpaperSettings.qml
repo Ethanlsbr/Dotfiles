@@ -3,7 +3,7 @@ import Quickshell.Widgets
 import qs.common.ui
 
 // Wallpaper grid for the settings window: filter box + thumbnail grid.
-// Click applies (awww); the applied one gets a border
+// Click applies (awww + hyprlock sync); the applied one gets a border
 // and check badge.
 Item {
     id: pane

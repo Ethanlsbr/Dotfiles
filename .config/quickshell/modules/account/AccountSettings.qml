@@ -39,13 +39,10 @@ Item {
                         font.family: pane.theme.ff; font.pixelSize: 52
                         visible: avatarImg.status !== Image.Ready
                     }
-                    Image {
+                    AvatarImage {
                         id: avatarImg
                         anchors.fill: parent
-                        fillMode: Image.PreserveAspectCrop
-                        source: AccountService.avatarUrl
                         cache: false
-                        asynchronous: true
                         sourceSize: Qt.size(216, 216)
                     }
                     Rectangle {

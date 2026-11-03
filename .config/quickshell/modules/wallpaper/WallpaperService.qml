@@ -3,10 +3,11 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import qs.common
+import qs.modules.lock
 
-// Wallpapers: listing (newest-first), thumbnailing, applying (awww), the
-// bottom picker, and the desktop widgets (cava strip + clock) toggled from
-// the Wallpaper settings pane.
+// Wallpapers: listing (newest-first), thumbnailing, applying (awww +
+// hyprlock sync), the bottom picker, and the desktop widgets (cava strip +
+// clock) toggled from the Wallpaper settings pane.
 Singleton {
     id: root
 
@@ -121,13 +122,23 @@ Singleton {
         onTriggered: root.wallpaperThumbTick++
     }
 
-    // Apply the wallpaper.
+    // Apply the wallpaper, then point hyprlock.conf's matching `path =` line
+    // at it (only lines inside the wallpaper folder; user.png stays).
     Process {
         id: setWallpaperProc
         property string target: ""
+        environment: ({
+            WP:       target,
+            HYPRLOCK: Paths.homeDir + "/.config/hypr/hyprlock.conf"
+        })
         // awww caches per-output; `awww restore` at login re-applies it
-        // (startup.lua).
-        command: ["awww", "img", "--transition-type", "center",
-                  "--transition-duration", "1.5", "--transition-fps", "60", target]
+        // (hypr scripts/restore-wallpaper.sh + startup.lua).
+        command: ["sh", "-c",
+            "awww img --transition-type center --transition-duration 1.5 --transition-fps 60 \"$WP\" && " +
+            "sed -i -E " +
+            "\"s|^([[:space:]]*path[[:space:]]*=[[:space:]]*).*/Pictures/wallpaper/.*|\\1$WP|\" " +
+            "\"$HYPRLOCK\""]
+        // Rebuild the lockscreen's screen-sized copy now, not at lock time.
+        onExited: code => { if (code === 0) LockService.refreshWallpapers() }
     }
 }
