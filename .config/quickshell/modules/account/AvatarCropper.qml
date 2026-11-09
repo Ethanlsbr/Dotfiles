@@ -3,7 +3,7 @@ import QtQuick
 // Modal circular cropper for a new profile picture (AccountService.cropSource).
 // Drag to move, scroll or use the slider to zoom (1–4×); the image always
 // covers the circle. Save hands the circle's bounding square, in source
-// pixels, to AccountService.applyCrop().
+// pixels, to AccountService.applyCrop(). An animated GIF plays while cropping.
 Rectangle {
     id: cropper
 
@@ -116,6 +116,7 @@ Rectangle {
 
                 Image {
                     id: img
+                    visible: !gif.item || gif.item.status !== Image.Ready
                     source: AccountService.cropSource
                     cache: false
                     asynchronous: true
@@ -126,6 +127,19 @@ Rectangle {
                     width:  implicitWidth  * cropper.imgScale
                     height: implicitHeight * cropper.imgScale
                     onStatusChanged: if (status === Image.Ready) cropper.reset()
+                }
+                // Plays on top of img, which still sets the size and the
+                // pixels save() crops in.
+                Loader {
+                    id: gif
+                    active: AccountService.cropSource !== "" && AccountService.cropAnimated
+                    x: img.x; y: img.y; width: img.width; height: img.height
+                    sourceComponent: AnimatedImage {
+                        source: AccountService.cropGifSource
+                        cache: false
+                        smooth: true
+                        mipmap: true
+                    }
                 }
 
                 // Dim everything outside the circle; outline the circle.

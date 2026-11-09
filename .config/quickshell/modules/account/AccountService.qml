@@ -52,10 +52,11 @@ Singleton {
     // Cropper input: an auto-oriented PNG copy (≤2048 px) of the picked
     // image, so what the cropper shows maps 1:1 onto what gets cropped.
     readonly property string cropPath: Paths.homeDir + "/.cache/quickshell/avatar-source.png"
-    // Copy of the picked file when it's an animated GIF; the cropper shows
-    // its first frame, applyCrop() crops every frame.
+    // Copy of the picked file when it's an animated GIF; the cropper plays
+    // it over cropSource (its first frame), applyCrop() crops every frame.
     readonly property string cropGifPath: Paths.homeDir + "/.cache/quickshell/avatar-source.gif"
     property bool   cropAnimated: false
+    readonly property string cropGifSource: cropAnimated ? "file://" + cropGifPath + "?rev=" + cropRev : ""
     property int    cropRev: 0
     // Non-empty while the cropper is open.
     property string cropSource: ""
@@ -136,7 +137,7 @@ Singleton {
             "f=$(zenity --file-selection --title='Choose a profile picture' --filename=\"$START\" " +
             "--file-filter='Images | *.png *.jpg *.jpeg *.webp *.bmp *.gif' 2>/dev/null) || exit 1; " +
             "mkdir -p \"$(dirname \"$TMP\")\" && " +
-            "magick \"$f[0]\" -auto-orient -resize '2048x2048>' \"png:$TMP\" || exit 1; " +
+            "magick \"$f[0]\" -coalesce -auto-orient -resize '2048x2048>' \"png:$TMP\" || exit 1; " +
             "rm -f \"$GIF\"; " +
             "case \"$(magick identify -ping -format '%m %n\\n' \"$f\" 2>/dev/null | head -n1)\" in " +
             "'GIF 1') ;; 'GIF '*) cp \"$f\" \"$GIF\" && echo animated ;; esac; exit 0"]
